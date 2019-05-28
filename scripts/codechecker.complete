@@ -1,0 +1,1 @@
+COMPREPLY=( $(compgen -W "$(echo $OVE_PROJECT_LIST | xargs -n1 | grep -v codechecker)" -- "${cur}") )

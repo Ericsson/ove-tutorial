@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+	projs=$(echo $OVE_PROJECT_LIST | xargs -n1 | grep -v codechecker)
+else
+	while true; do
+		[ "$*" == "" ] && break
+		re=\\b$1\\b
+		if [[ "$OVE_PROJECT_LIST" =~ $re ]]; then
+			projs+="$1 "
+		else
+			echo "error: '$1' unknown project"
+		fi
+
+		shift
+	done
+fi
+
+for p in $projs; do
+	if ! [ -e $OVE_PROJECT_DIR/projects/$p/clean ]; then
+		echo "Project '$p' does not have a 'clean' file"
+		continue
+	fi
+
+	if ! [ -e $OVE_PROJECT_DIR/projects/$p/build ]; then
+		echo "Project '$p' does not have a 'build' file"
+		continue
+	fi
+
+	echo "CodeChecker for $p..."
+	source $OVE_BASE_DIR/codechecker/venv/bin/activate
+	$OVE_BASE_DIR/codechecker/build/CodeChecker/bin/CodeChecker \
+			check \
+			-b "bash -c \"$OVE_INIT_STRING; ove-clean $p; ove-build $p\"" \
+			-j$(nproc) \
+			-o ./reports
+	ret=$?
+
+	if [ $ret -eq 0 ]; then
+		echo "CodeChecker: $p OK"
+	else
+		echo "CodeChecker: $p NOK $ret"
+	fi
+done

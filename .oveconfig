@@ -1,0 +1,4 @@
+# dmce: launch command
+DMCE_LAUNCHER $OVE_BASE_DIR/dmce/dmce-launcher -n 10
+# dmce: clean command
+DMCE_CLEANER  $OVE_BASE_DIR/dmce/dmce-launcher -c

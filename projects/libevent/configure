@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd libevent-${libevent_version}-stable
+CFLAGS="$OVE_CPPFLAGS" LDFLAGS="$OVE_LDFLAGS" ./configure --prefix=$OVE_STAGE_DIR/usr

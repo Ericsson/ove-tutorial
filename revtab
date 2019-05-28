@@ -1,0 +1,5 @@
+# name       fetch URL                                    push URL                                     rev
+.ove         https://github.com/Ericsson/ove.git          https://github.com/Ericsson/ove.git          master
+codechecker  https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  master
+dmce         https://github.com/PatrikAAberg/dmce.git     https://github.com/PatrikAAberg/dmce.git     master
+tmux         https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             master

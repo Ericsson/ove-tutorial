@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+[ -e ncurses-${ncurses_version}.tar.gz ] || wget ftp://ftp.gnu.org/gnu/ncurses/ncurses-${ncurses_version}.tar.gz
+tar xvf ncurses-${ncurses_version}.tar.gz

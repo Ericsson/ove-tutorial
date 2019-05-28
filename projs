@@ -1,0 +1,49 @@
+---
+codechecker:
+  needs:
+    build-essential
+    clang
+    clang-tidy
+    curl
+    doxygen
+    gcc-multilib
+    git
+    graphviz
+    python-dev
+    python-setuptools
+    python-virtualenv
+    thrift-compiler
+  path:
+    codechecker
+
+dmce:
+  needs:
+    bc
+  path: dmce
+
+libevent:
+  needs:
+    libtool
+    wget
+  path:
+    libevent
+  version:
+    2.1.10
+
+ncurses:
+  path:
+    ncurses
+  version:
+    6.1
+
+tmux:
+  deps:
+    libevent
+    ncurses
+  needs:
+    autoconf
+    automake
+    bison
+    pkg-config
+  path:
+    tmux
