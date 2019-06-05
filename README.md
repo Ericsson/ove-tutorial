@@ -80,7 +80,9 @@ Your OVE workspace now consists of five git repositories (all from github.com) a
     ncurses
     tmux
 
-OVE keep track of the depdendencies between projects, so let us check the build order:
+
+For OVE, a project is something that produces output (e.g. an executable, a library or anything else machine-made). Even though projects are normally contained within a  corresponding git repo, OVE treats projects and repos independently. Multiple projects can be configured using code and build systems from the same repo, and one project can use code and build systems from multiple repos.
+Now, OVE keep track of the depdendencies between projects, so let us check the build order for the tutorial OWEL:
 
     $ ove build-order
     codechecker dmce libevent ncurses tmux
@@ -93,7 +95,7 @@ Let us do a 'dry-run' build first:
     OVE_DRY_RUN 1
 
     $ ove buildme
-    2019-05-27 09:00:15.986867812 (+00:00:00:000000000):Would install this/these package(s):
+    2019-05-27 09:00:15.986867812 (+00:00:00:000000000):Would prompt to install this/these package(s):
     autoconf
     automake
     bison
@@ -153,9 +155,9 @@ Let us do a 'dry-run' build first:
     cd /root/ove/tmux && /root/ove/ove-tutorial/projects/tmux/install
     2019-05-27 09:00:16.129281178 (+00:00:00:005042070):tmux: install: done
 
-Here we are using a Ubuntu 18.04 [LXC container](https://us.images.linuxcontainers.org), hence the "/root/" path.
+When making this tutorial we used an Ubuntu 18.04 [LXC container](https://us.images.linuxcontainers.org), hence the "/root/" path.
 
-As seen above the '**buildme**' command will first install any missing packages, then iterate through any bootstrap/configure/build/install step for each project in the correct build order.
+As seen above the '**buildme**' command will check for any any missing packages (specified by the 'needs:' in the 'projs' file), then iterate through any bootstrap/configure/build/install step for each project (as defined in 'ove-tutorial/projects/') in the correct build order. Please note, "missing packages" in this context refers to packages needed to build ove-tutorial and have nothing to do with packages needed for OVE itself.
 
 If you are on Ubuntu/Debian, you could try to build everything without 'dry-run':
 
@@ -164,6 +166,8 @@ If you are on Ubuntu/Debian, you could try to build everything without 'dry-run'
     # go grab a cup of tea
     $ stage/usr/bin/tmux -V
     tmux next-3.0
+
+Wait! What's up with the 'stage/usr/bin...' stuff? A short note: OVE uses a staging area for both intermediate and final build steps. You can look at it as a per-workspace mirror of how the included projects would install on your host if built without OVE. It is up to each project to decide what to do with the end results. Typically an OVE plugin (see Part IV, Plugins) would package relevant output (found in stage/...) into, well.. packages.
 
 ## Part III: OVE commands
 
