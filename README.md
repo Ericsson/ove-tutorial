@@ -177,7 +177,7 @@ As mentioned over [here](https://github.com/Ericsson/ove), OVE commands are divi
 * Build related commands
 * Misc commands
 
-In this part, we will give a brief introduction to a few useful commands. Note that a majority of the commands are tab completion enabled.
+In this part, we will give a brief introduction to a few useful commands. Try them out! Then go ahead and investigate the full list using the first command below. Note that a majority of the commands are tab completion enabled.
 
     # print all commands
     $ ove list-commands
@@ -264,17 +264,19 @@ In this part, we will give a brief introduction to a few useful commands. Note t
 
 OVE does not (yet) have any "push" command(s). When you want to share these patches upstream, use the normal git workflow!
 
+By now you should have a brief idea what kind of functionality OVE offers out-of-the box. Of course that can never be enough! Let's move on to see how simple it is to add customized commands. We call them plugins!
+
 ## Part IV: Plugins
 
 It's pretty easy to extend OVE with extra commands. In this section we will show how [CodeChecker](https://github.com/Ericsson/codechecker) can be added to this project.
 
-When you do '**source ove**' OVE will search for executable files at the following three directories:
+When you do '**source ove**', OVE will search for executable files at the following three directories:
 
     $OVE_BASE_DIR/scripts/
     $OVE_PROJECT_DIR/scripts/
     <all repositories>/.ove/scripts/
 
-All executable files in these three directories will be added to OVE command list. Example:
+All executable files in these three directories will be added to OVE command list. Here we added an entrypoint for codechecker in the top repo (ove-tutorial):
 
     $ ls $OVE_PROJECT_DIR/scripts
     codechecker  codechecker.complete  codechecker.help
@@ -288,7 +290,7 @@ All executable files in these three directories will be added to OVE command lis
 | codechecker.complete | Bash completion script    |
 | codechecker.help     | Help text for codechecker |
 
-Now we can issue the "ove codechecker" command like this:
+We just created a new OVE command! Now we can issue our new "ove codechecker" like this:
 
     $ ove codechecker <tab><tab>
     libevent ncurses tmux
@@ -314,3 +316,5 @@ Now we can issue the "ove codechecker" command like this:
     Total number of reports: 39
     ----=================----
     CodeChecker: libevent OK
+
+Thats it! You are now ready to start using OVE. And remember, if you write/use a plugin that you belive should go into OVE, let's get in touch!
