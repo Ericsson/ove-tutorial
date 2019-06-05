@@ -1,6 +1,6 @@
 # OVE Tutorial
 
-This tutorial will hopefully give you an idea what OVE is all about. If you want to know the details behind OVE, please head over to [OVE](https://github.com/Ericsson/ove) and spend a few minutes there, but if you just want to try OVE out just continue with this tutorial.
+This tutorial will hopefully give you an basic idea what OVE is about. If you are looking for a more in-depth description of OVE, please head over to [OVE](https://github.com/Ericsson/ove). If you on the other hand are eager to take OVE for a spin right away, just go ahead with the instructions below, its simple!
 
 ## Part I: Set up the OVE workspace
 
