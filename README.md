@@ -2,13 +2,13 @@
 
 This tutorial will hopefully give you an idea what OVE is all about. If you want to know the details behind OVE, please head over to [OVE](https://github.com/Ericsson/ove) and spend a few minutes there, but if you just want to try OVE out just continue with this tutorial.
 
-## Part I: Get the code
+## Part I: Set up the OVE workspace
 
 Run the oneliner:
 
-    curl -sSL https://raw.githubusercontent.com/Ericsson/ove/master/setup | bash -s ove https://github.com/Ericsson/ove-tutorial
-
-The above oneliner is short for the following commands:
+    curl -sSL https://raw.githubusercontent.com/Ericsson/ove/master/setup | bash -s my-ove-workspace https://github.com/Ericsson/ove-tutorial
+Please note that 'my-ove-workspace' will be the name of your OVE workspace. You can use multiple workspaces to keep states of different tasks for the same or different projects.
+For the interested, the above oneliner is short for the following commands. However, most people do not really have to care. Let's move on!
 
     $ mkdir -vp ove
     $ cd ove
@@ -18,7 +18,7 @@ The above oneliner is short for the following commands:
     $ ln -s ove-tutorial .owel
     $ ln -s .ove/ove ove
 
-The '**setup**' script will ask you to enter the '**ove**' directory and run '**source ove**':
+The '**setup**' script will now ask you to enter the '**my-ove-workspace**' directory and run '**source ove**', please do so. You should observe the following:
 
     $ source ove
     OVE [SHA-1: 0959726 @ Ubuntu 18.04]
@@ -31,7 +31,7 @@ The '**setup**' script will ask you to enter the '**ove**' directory and run '**
     ...
     Now what? Run 'ove fetch' to sync with the outside world or 'ove help' for more information
 
-If you are missing some of the required dependencies on your host, OVE will complain:
+Note! If you are missing some of the required dependencies on your host, OVE will let you know and suggest a solution:
 
     $ source ove
     error: missing command(s):
@@ -55,7 +55,12 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
     ove-tutorial  ## master...origin/master
     tmux          ## master...origin/master
 
-The first part of the tutorial is done. You have fetched the code and your bash shell is ready.
+Checking the contents of your workspace will reveal the source code repos (codechecker, dmce, tmux), the OWEL (ove-tutorial) and OVE itself:
+
+    $ ls -la
+    .  ..  codechecker  dmce  ove  .ove  ove-tutorial  .owel  tmux
+
+The first part of the tutorial is done! You have now enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Now, lets move on and build stuff!
 
 ## Part II: Build
 
