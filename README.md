@@ -57,7 +57,7 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
 
 Checking the contents of your workspace will reveal the source code repos (codechecker, dmce, tmux), the OWEL (ove-tutorial) and OVE itself:
 
-    $ ls -la
+    $ ls -a
     .  ..  codechecker  dmce  ove  .ove  ove-tutorial  .owel  tmux
 
 The first part of the tutorial is done! You have now enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Now, lets move on and build stuff!
