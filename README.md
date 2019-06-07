@@ -175,7 +175,8 @@ As mentioned over [here](https://github.com/Ericsson/ove), OVE commands are divi
 
 * High level git commands
 * Build related commands
-* Misc commands
+* Utility commands
+* Plugins
 
 In this part, we will give a brief introduction to a few useful commands. Try them out! Then go ahead and investigate the full list using the first command below. Note that a majority of the commands are tab completion enabled.
 
