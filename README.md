@@ -82,7 +82,7 @@ Your OVE workspace now consists of five git repositories (all from github.com) a
 
 
 For OVE, a project is something that produces output (e.g. an executable, a library or anything else machine-made). Even though projects are normally contained within a  corresponding git repo, OVE treats projects and repos independently. Multiple projects can be configured using code and build systems from the same repo, and one project can use code and build systems from multiple repos.
-Now, OVE keep track of the depdendencies between projects, so let us check the build order for the tutorial OWEL:
+Now, OVE keep track of the dependencies between projects, so let us check the build order for the tutorial OWEL:
 
     $ ove build-order
     codechecker dmce libevent ncurses tmux
@@ -220,7 +220,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     $ ove vi
     ...
 
-    # interactivly ask user what chunks to add in all git repos
+    # interactively ask user what chunks to add in all git repos
     $ ove add
     ...
 
@@ -277,7 +277,7 @@ When you do '**source ove**', OVE will search for executable files at the follow
     $OVE_PROJECT_DIR/scripts/
     <all repositories>/.ove/scripts/
 
-All executable files in these three directories will be added to OVE command list. Here we added an entrypoint for codechecker in the top repo (ove-tutorial):
+All executable files in these three directories will be added to OVE command list. Here we added an entry point for codechecker in the top repo (ove-tutorial):
 
     $ ls $OVE_PROJECT_DIR/scripts
     codechecker  codechecker.complete  codechecker.help
@@ -318,4 +318,4 @@ We just created a new OVE command! Now we can issue our new "ove codechecker" li
     ----=================----
     CodeChecker: libevent OK
 
-Thats it! You are now ready to start using OVE. And remember, if you write/use a plugin that you belive should go into OVE, let's get in touch!
+Thats it! You are now ready to start using OVE. And remember, if you write/use a plugin that you believe should go into OVE, let's get in touch!
