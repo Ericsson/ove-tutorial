@@ -203,7 +203,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker   ## master...origin/master
     dmce          ## master...origin/master
     ove-tutorial  ## master...origin/master
-    tmux          ## master...origin/master
+    tmux          ## HEAD (no branch)
 
     # update some files
     $ sed -i '1i Hi all' */{README,README.md,docs/README.md}
@@ -214,14 +214,14 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker   ## master...origin/master  M docs/README.md
     dmce          ## master...origin/master  M README.md
     ove-tutorial  ## master...origin/master  M README.md
-    tmux          ## master...origin/master  M README
+    tmux          ## HEAD (no branch)  M README
 
     # open all modified files in 'vi'
     $ ove vi
     ...
 
-    # interactively ask user what chunks to add in all git repos
-    $ ove add
+    # interactively ask user what chunks to add in 'codechecker' and 'dmce'
+    $ ove add codechecker dmce
     ...
 
     # create commits for all staged changes
@@ -232,29 +232,29 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     .ove          ## master...origin/master
     codechecker   ## master...origin/master [ahead 1]
     dmce          ## master...origin/master [ahead 1]
-    ove-tutorial  ## master...origin/master [ahead 1]
-    tmux          ## master...origin/master [ahead 1]
+    ove-tutorial  ## master...origin/master M README.md
+    tmux          ## HEAD (no branch)  M README
 
     # check for new commits in a specific git repo
-    $ ove fetch tmux
-    Fetching origin for tmux
+    $ ove fetch codechecker
+    Fetching origin for codechecker
     ...
-       793f4d89..c0116b2c  master     -> origin/master
-    tmux  ## master...origin/master [ahead 1, behind 2]
+       f6ea954a..5c2b56bb  master     -> origin/master
+    codechecker  ## master...origin/master [ahead 1, behind 2]
 
     # hmm, what got pushed upstream?
     $ ove news
-    tmux: 2 new commit(s):
-    c0116b2c  84 minutes ago  email-A  subject X
-    799a154b  2 hours ago     email-B  subject Y
+    codechecker: 2 new commit(s):
+    5c2b56bb 84 minutes ago  email-A  subject X
+    2d7eeebd  2 hours ago    email-B  subject Y
 
     # take a look at one of these commits
-    $ ove show 79<tab>
-    $ ove show 799a154b
+    $ ove show 2d7<tab>
+    $ ove show 2d7eeebd
 
-    # rebase tmux
-    $ ove pull tmux
-    tmux
+    # rebase codechecker
+    $ ove pull codechecker
+    codechecker
     First, rewinding head to replay your work on top of it...
     Applying: Hi all
     .ove          ## master...origin/master
