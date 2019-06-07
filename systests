@@ -1,0 +1,5 @@
+# name       timeout (s)   type   path   command
+# ----------------------------------------------
+t1              5          0      dmce  "sleep 4"
+t2              1          0      dmce  "echo Hello"
+t3              3          0      dmce  "sleep 10"

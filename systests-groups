@@ -1,0 +1,6 @@
+all:
+  - t1
+  - t2
+  - t3
+sanity:
+  - t1

@@ -321,4 +321,60 @@ We just created a new OVE command! Now we can issue our new "ove codechecker" li
     ----=================----
     CodeChecker: libevent OK
 
+## Part V: System tests
+
+Finally, let us have a brief look at how system tests work. We prepared some simple test entry points. Please list them:
+
+    $ ove list-systests
+    all
+    sanity
+    t1
+    t2
+    t3
+
+'all' and 'sanity' are system test groups, and 't1', 't2' and 't3' are actual system test entrypoints. They are defined in 'systests' and 'systests-groups' found in your OWEL (ove-tutorial):
+
+    $ cat systests
+
+    # name       timeout (s)   type   path   command
+    # ----------------------------------------------
+    t1              5          0      dmce  "sleep 4"
+    t2              1          0      dmce  "echo Hello"
+    t3              3          0      dmce  "sleep 10"
+
+    $ cat systests-groups
+    all:
+      - t1
+      - t2
+      - t3
+    sanity:
+      - t1
+
+
+You can try them out:
+
+    $ ove systest t1
+    ove-systest:[001/001    ]:t1
+    ove-systest:[001/001 OK]:t1
+
+
+    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155603496153257-ove-systest-elxa3wb5lz1.log
+
+    $ ove systest t2
+    ove-systest:[001/001    ]:t2
+    Hello
+    ove-systest:[001/001 OK]:t2
+
+
+    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155613260889322-ove-systest-elxa3wb5lz1.log
+
+    $ove systest t3
+    ove-systest:[001/001    ]:t3
+    ove-systest:[001/001 NOK TIMEOUT]:t3
+
+
+    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155616418011546-ove-systest-elxa3wb5lz1.log
+
+The first two tests will pass and the third will fail. The reason for failing the third test is of course the timeout being shorter than the argument to sleep.
+
 Thats it! You are now ready to start using OVE. And remember, if you write/use a plugin that you believe should go into OVE, let's get in touch!
