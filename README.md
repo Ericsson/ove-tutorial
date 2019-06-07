@@ -1,16 +1,17 @@
 # OVE Tutorial
 
-This tutorial will hopefully give you an basic idea what OVE is about. If you are looking for a more in-depth description of OVE, please head over to [OVE](https://github.com/Ericsson/ove). If you on the other hand are eager to take OVE for a spin right away, just go ahead with the instructions below, its simple!
+This tutorial will hopefully give you an basic idea what OVE is about. If you are looking for a more in-depth description of OVE, please head over to [OVE](https://github.com/Ericsson/ove). If you on the other hand are eager to take OVE for a spin right away, just go ahead with the instructions below, it's easy!
 
 ## Part I: Set up the OVE workspace
 
 Run the oneliner:
 
     curl -sSL https://raw.githubusercontent.com/Ericsson/ove/master/setup | bash -s my-ove-workspace https://github.com/Ericsson/ove-tutorial
-Please note that 'my-ove-workspace' will be the name of your OVE workspace. You can use multiple workspaces to keep states of different tasks for the same or different projects.
+
+'my-ove-workspace' will be the name of your OVE workspace. You can use multiple workspaces to keep states of different tasks for the same or different projects.
 
 
-For the interested, the above oneliner runs the code in the snippet below. PLEASE NOTE: Do not manually run them, they are only there to shine light over the oneliner you have already executed. However, most people do not really have to care about what the setup script is doing. Lets skip below code snippet and move on!
+For the interested, the above oneliner runs the code in the snippet below. PLEASE NOTE: Do not manually run them, they are only there to shine light over the oneliner you have already executed. Most people do not really have to care about what the setup script is doing so let us skip below code snippet and move on!
 
     $ #Short description of what the oneliner setup script is actually doing
     $ #mkdir -vp ove
@@ -34,7 +35,7 @@ The '**setup**' script will now ask you to enter the '**my-ove-workspace**' dire
     ...
     Now what? Run 'ove fetch' to sync with the outside world or 'ove help' for more information
 
-Note! If you are missing some of the required dependencies on your host, OVE will let you know and suggest a solution:
+If you are missing some of the required dependencies on your host, OVE will let you know and suggest a solution:
 
     $ source ove
     error: missing command(s):
@@ -58,12 +59,12 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
     ove-tutorial  ## master...origin/master
     tmux          ## master...origin/master
 
-Checking the contents of your workspace will reveal the source code repos (codechecker, dmce, tmux), the OWEL (ove-tutorial) and OVE itself:
+Checking the content of your newly created workspace will reveal the source code repos (codechecker, dmce, tmux), the OWEL (ove-tutorial) and OVE itself:
 
     $ ls -a
     .  ..  codechecker  dmce  ove  .ove  ove-tutorial  .owel  tmux
 
-The first part of the tutorial is done! You have now enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Now, lets move on and build stuff!
+The first part of the tutorial is done! You have enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Let us move on and build stuff!
 
 ## Part II: Build
 
@@ -85,12 +86,12 @@ Your OVE workspace now consists of five git repositories (all from github.com) a
 
 
 For OVE, a project is something that produces output (e.g. an executable, a library or anything else machine-made). Even though projects are normally contained within a  corresponding git repo, OVE treats projects and repos independently. Multiple projects can be configured using code and build systems from the same repo, and one project can use code and build systems from multiple repos.
-Now, OVE keep track of the dependencies between projects, so let us check the build order for the tutorial OWEL:
+OVE keeps track of the dependencies between projects, so let us check the build order for the tutorial OWEL:
 
     $ ove build-order
     codechecker dmce libevent ncurses tmux
 
-'**codechecker**' and '**dmce**' does not have any project dependencies and will be built first. '**tmux**' on the other hand need both '**libevent**' and '**ncurses**' and will be build last.
+'**codechecker**' and '**dmce**' does not have any project dependencies and will be built first. '**tmux**' on the other hand needs both '**libevent**' and '**ncurses**' and will be built last.
 
 Let us do a 'dry-run' build first:
 
@@ -160,7 +161,7 @@ Let us do a 'dry-run' build first:
 
 When making this tutorial we used an Ubuntu 18.04 [LXC container](https://us.images.linuxcontainers.org), hence the "/root/" path.
 
-As seen above the '**buildme**' command will check for any any missing packages (specified by the 'needs:' in the 'projs' file), then iterate through any bootstrap/configure/build/install step for each project (as defined in 'ove-tutorial/projects/') in the correct build order. Please note, "missing packages" in this context refers to packages needed to build ove-tutorial and have nothing to do with packages needed for OVE itself.
+As seen above the '**buildme**' command will check for any missing packages (specified by the 'needs:' in the 'projs' file), then iterate through any present bootstrap/configure/build/install steps for each project (as defined in 'ove-tutorial/projects/') in the correct build order. Please note, "missing packages" in this context refers to packages needed to build ove-tutorial and have nothing to do with packages needed for OVE itself.
 
 If you are on Ubuntu/Debian, you could try to build everything without 'dry-run':
 
@@ -174,14 +175,14 @@ Wait! What's up with the 'stage/usr/bin...' stuff? A short note: OVE uses a stag
 
 ## Part III: OVE commands
 
-As mentioned over [here](https://github.com/Ericsson/ove), OVE commands are divided into three categories:
+As mentioned [here](https://github.com/Ericsson/ove), OVE commands are divided into four categories:
 
 * High level git commands
 * Build related commands
 * Utility commands
 * Plugins
 
-In this part, we will give a brief introduction to a few useful commands. Try them out! Then go ahead and investigate the full list using the first command below. Note that a majority of the commands are tab completion enabled.
+In this part, we will give a brief introduction to a few useful commands. Try them out! Then go ahead and investigate the full list using the first command below. A majority of the commands are tab completion enabled.
 
     # print all commands
     $ ove list-commands
@@ -266,13 +267,13 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     ove-tutorial  ## master...origin/master [ahead 1]
     tmux          ## master...origin/master [ahead 1]
 
-OVE does not (yet) have any "push" command(s). When you want to share these patches upstream, use the normal git workflow!
+OVE does not have any "push" command(s). When you want to share these patches upstream, use the normal git workflow!
 
-By now you should have a brief idea what kind of functionality OVE offers out-of-the box. Of course that can never be enough! Let's move on to see how simple it is to add customized commands. We call them plugins!
+By now you should have a brief idea what kind of functionality OVE offers out-of-the box. Of course this is most often not enough! Let's move on to see how simple it is to add customized commands. We call them plugins!
 
 ## Part IV: Plugins
 
-It's pretty easy to extend OVE with extra commands. In this section we will show how [CodeChecker](https://github.com/Ericsson/codechecker) can be added to this project.
+It is pretty easy to extend OVE with extra commands. In this section we will show how [CodeChecker](https://github.com/Ericsson/codechecker) can be added to this project.
 
 When you do '**source ove**', OVE will search for executable files at the following three directories:
 
@@ -377,4 +378,4 @@ You can try them out:
 
 The first two tests will pass and the third will fail. The reason for failing the third test is of course the timeout being shorter than the argument to sleep.
 
-Thats it! You are now ready to start using OVE. And remember, if you write/use a plugin that you believe should go into OVE, let's get in touch!
+That's it! You are now ready to start using OVE. And remember, if you write/use a plugin that you believe should go into OVE, let's get in touch!
