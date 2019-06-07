@@ -8,15 +8,18 @@ Run the oneliner:
 
     curl -sSL https://raw.githubusercontent.com/Ericsson/ove/master/setup | bash -s my-ove-workspace https://github.com/Ericsson/ove-tutorial
 Please note that 'my-ove-workspace' will be the name of your OVE workspace. You can use multiple workspaces to keep states of different tasks for the same or different projects.
-For the interested, the above oneliner is short for the following commands. However, most people do not really have to care. Let's move on!
 
-    $ mkdir -vp ove
-    $ cd ove
-    $ git clone https://github.com/Ericsson/ove.git .ove &
-    $ git clone https://github.com/Ericsson/ove-tutorial &
-    $ wait
-    $ ln -s ove-tutorial .owel
-    $ ln -s .ove/ove ove
+
+For the interested, the above oneliner runs the code in the snippet below. PLEASE NOTE: Do not manually run them, they are only there to shine light over the oneliner you have already executed. However, most people do not really have to care about what the setup script is doing. Lets skip below code snippet and move on!
+
+    $ #Short description of what the oneliner setup script is actually doing
+    $ #mkdir -vp ove
+    $ #cd ove
+    $ #git clone https://github.com/Ericsson/ove.git .ove &
+    $ #git clone https://github.com/Ericsson/ove-tutorial &
+    $ #wait
+    $ #ln -s ove-tutorial .owel
+    $ #ln -s .ove/ove ove
 
 The '**setup**' script will now ask you to enter the '**my-ove-workspace**' directory and run '**source ove**', please do so. You should observe the following:
 
