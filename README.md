@@ -57,12 +57,12 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
     codechecker   ## master...origin/master
     dmce          ## master...origin/master
     ove-tutorial  ## master...origin/master
-    tmux          ## master...origin/master
+    tmux          ## HEAD (no branch)
 
 Checking the content of your newly created workspace will reveal the source code repos (codechecker, dmce, tmux), the OWEL (ove-tutorial) and OVE itself:
 
-    $ ls -a
-    .  ..  codechecker  dmce  ove  .ove  ove-tutorial  .owel  tmux
+    $ ls -A
+    codechecker  dmce  ove  .ove  ove-tutorial  .owel  tmux
 
 The first part of the tutorial is done! You have enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Let us move on and build stuff!
 
@@ -75,7 +75,7 @@ Your OVE workspace now consists of five git repositories (all from github.com) a
     codechecker   https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  master
     dmce          https://github.com/PatrikAAberg/dmce.git     https://github.com/PatrikAAberg/dmce.git     master
     ove-tutorial  https://github.com/Ericsson/ove-tutorial.git https://github.com/Ericsson/ove-tutorial.git master
-    tmux          https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             master
+    tmux          https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             2.9
 
     $ ove list-projects
     codechecker
@@ -169,7 +169,7 @@ If you are on Ubuntu/Debian, you could try to build everything without 'dry-run'
     $ ove buildme
     # go grab a cup of tea
     $ stage/usr/bin/tmux -V
-    tmux next-3.0
+    tmux 2.9
 
 Wait! What's up with the 'stage/usr/bin...' stuff? A short note: OVE uses a staging area for both intermediate and final build steps. You can look at it as a per-workspace mirror of how the included projects would install on your host if built without OVE. It is up to each project to decide what to do with the end results. Typically an OVE plugin (see Part IV, Plugins) would package relevant output (found in stage/...) into, well.. packages.
 
@@ -184,7 +184,6 @@ As mentioned [here](https://github.com/Ericsson/ove), OVE commands are divided i
 
 In this part, we will give a brief introduction to a few useful commands. Try them out! Then go ahead and investigate the full list using the first command below. A majority of the commands are tab completion enabled.
 
-    # print all commands
     $ ove list-commands
     add                    [GIT...]                   git add -p for all/specified repositories
     ag                     PATTERN                    search using The Silver Searcher
@@ -197,7 +196,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     branch                 [GIT...]                   git branch -v for all/specified git repositories
     ...
 
-    # ask for help
+    # ask for help for a particular command
     $ ove help add
     add                    [GIT...]                   git add -p for all/specified repositories
 
@@ -264,8 +263,8 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     .ove          ## master...origin/master
     codechecker   ## master...origin/master [ahead 1]
     dmce          ## master...origin/master [ahead 1]
-    ove-tutorial  ## master...origin/master [ahead 1]
-    tmux          ## master...origin/master [ahead 1]
+    ove-tutorial  ## master...origin/master M README.md
+    tmux          ## HEAD (no branch)  M README
 
 OVE does not have any "push" command(s). When you want to share these patches upstream, use the normal git workflow!
 
