@@ -33,6 +33,7 @@ for p in $projs; do
 			check \
 			-b "bash -c \"$OVE_INIT_STRING; ove-clean $p; ove-build $p\"" \
 			-j$(nproc) \
+			--enable-all \
 			-o ./reports
 	ret=$?
 
