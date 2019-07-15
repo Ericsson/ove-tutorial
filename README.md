@@ -283,7 +283,7 @@ When you do '**source ove**', OVE will search for executable files at the follow
 All executable files in these three directories will be added to OVE command list. Here we added an entry point for codechecker in the top repo (ove-tutorial):
 
     $ ls $OVE_PROJECT_DIR/scripts
-    codechecker  codechecker.complete  codechecker.help
+    codechecker  codechecker.complete  codechecker.help  dmce  dmce.complete  dmce.help
     $ ove help codechecker
     codechecker            [PROJECT]                  run codechecker for all/specified project(s)
 
@@ -294,10 +294,10 @@ All executable files in these three directories will be added to OVE command lis
 | codechecker.complete | Bash completion script    |
 | codechecker.help     | Help text for codechecker |
 
-We just created a new OVE command! Now we can issue our new "ove codechecker" like this:
+Now we can run 'codechecker' like this:
 
     $ ove codechecker <tab><tab>
-    libevent ncurses tmux
+    dmce libevent ncurses tmux
 
     $ ove codechecker libevent
     CodeChecker for libevent...
@@ -313,11 +313,13 @@ We just created a new OVE command! Now we can issue our new "ove codechecker" li
     -----------------------
     Severity | Report count
     -----------------------
+    STYLE    |         2501
+    LOW      |          690
+    MEDIUM   |           52
     HIGH     |           25
-    MEDIUM   |           14
     -----------------------
     ----=================----
-    Total number of reports: 39
+    Total number of reports: 3268
     ----=================----
     CodeChecker: libevent OK
 
@@ -334,7 +336,7 @@ Finally, let us have a brief look at how system tests work. We prepared some sim
 
 'all' and 'sanity' are system test groups, and 't1', 't2' and 't3' are actual system test entrypoints. They are defined in 'systests' and 'systests-groups' found in your OWEL (ove-tutorial):
 
-    $ cat systests
+    $ cat ove-tutorial/systests
 
     # name       timeout (s)   type   path   command
     # ----------------------------------------------
@@ -342,7 +344,7 @@ Finally, let us have a brief look at how system tests work. We prepared some sim
     t2              1          0      dmce  "echo Hello"
     t3              3          0      dmce  "sleep 10"
 
-    $ cat systests-groups
+    $ cat ove-tutorial/systests-groups
     all:
       - t1
       - t2
