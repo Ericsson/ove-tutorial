@@ -27,13 +27,31 @@ for p in $projs; do
 		continue
 	fi
 
+	if [ "$CODECHECKER_CLANG" != "" ]; then
+		if ! command -V $CODECHECKER_CLANG &> /dev/null; then
+			echo "warning: '$CODECHECKER_CLANG' not found. Check ove config CODECHECKER_CLANG"
+	else
+		sed -i "s|^      \"clangsa\".*|      \"clangsa\": \"$CODECHECKER_CLANG\",|g" \
+			$OVE_BASE_DIR/codechecker/build/CodeChecker/config/package_layout.json
+		fi
+	fi
+
+	if [ "$CODECHECKER_TIDY" != "" ]; then
+		if ! command -V $CODECHECKER_TIDY &> /dev/null; then
+			echo "warning: '$CODECHECKER_TIDY' not found. Check ove config CODECHECKER_TIDY"
+		else
+			sed -i "s|^      \"clang-tidy\".*|      \"clang-tidy\": \"$CODECHECKER_TIDY\"|g" \
+				$OVE_BASE_DIR/codechecker/build/CodeChecker/config/package_layout.json
+		fi
+	fi
+
 	echo "CodeChecker for $p..."
 	source $OVE_BASE_DIR/codechecker/venv/bin/activate
 	$OVE_BASE_DIR/codechecker/build/CodeChecker/bin/CodeChecker \
 			check \
 			-b "bash -c \"$OVE_INIT_STRING; ove-clean $p; ove-build $p\"" \
 			-j$(nproc) \
-			--enable-all \
+			$CODECHECKERS_ARGS \
 			-o ./reports
 	ret=$?
 
