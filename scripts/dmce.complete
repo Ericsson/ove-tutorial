@@ -1,1 +1,0 @@
-COMPREPLY=( $(compgen -W "$(echo $OVE_REPO_LIST | xargs -n1 | grep -v ^dmce)" -- "${cur}") )

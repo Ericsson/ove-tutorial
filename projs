@@ -19,7 +19,8 @@ codechecker:
 dmce:
   needs:
     bc
-  path: dmce
+  path:
+    dmce
 
 libevent:
   needs:
