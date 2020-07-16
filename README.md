@@ -29,7 +29,7 @@ The '**setup**' script will now ask you to enter the '**my-ove-workspace**' dire
 
     This script will do a few things:
 
-    * add 85 bash functions:
+    * add 120 bash functions:
     ove-!   ove-config    ove-lastlog       ove-refresh
     ove-add ove-configure ove-list-commands ove-remote
     ...
@@ -53,16 +53,16 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
     Cloning into 'dmce'...
     Cloning into 'tmux'...
     ...
-    .ove          ## master...origin/master
-    codechecker   ## master...origin/master
-    dmce          ## master...origin/master
-    ove-tutorial  ## master...origin/master
-    tmux          ## HEAD (no branch)
+    .ove          master   ## master...origin/master
+    codechecker   master   ## master...origin/master
+    dmce          master   ## master...origin/master
+    ove-tutorial  d78b9d9  ## master...origin/master
+    tmux          2.9      ## HEAD (no branch)
 
 Checking the content of your newly created workspace will reveal the source code repos (codechecker, dmce, tmux), the OWEL (ove-tutorial) and OVE itself:
 
     $ ls -A
-    codechecker  dmce  ove  .ove  ove-tutorial  .owel  tmux
+    codechecker  dmce  ove  .ove  .ove.state  .ove.tmp  ove-tutorial  .owel  README  tmux
 
 The first part of the tutorial is done! You have enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Let us move on and build stuff!
 
@@ -90,6 +90,16 @@ OVE keeps track of the dependencies between projects, so let us check the build 
 
     $ ove build-order
     codechecker dmce libevent ncurses tmux
+
+    $ ove digraph
+    digraph ove_tutorial {
+        codechecker;
+        dmce;
+        libevent;
+        ncurses;
+        tmux -> libevent;
+        tmux -> ncurses;
+    }
 
 '**codechecker**' and '**dmce**' does not have any project dependencies and will be built first. '**tmux**' on the other hand needs both '**libevent**' and '**ncurses**' and will be built last.
 
@@ -187,13 +197,14 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     $ ove list-commands
     add                    [GIT...]                   git add -p for all/specified repositories
     ag                     PATTERN                    search using The Silver Searcher
+    ahead                  [GIT...]                   list local commits not yet published for all/specified repositories
+    am                     FILE                       apply a bz2 archive file created with 'format-patch'
     apply                  PATCH                      apply one OVE patch
     authors                                           summarize authors from tracked repositories
     blame-history          PATTERN                    git log -S for all git repositories
     blame                  PATTERN                    git grep-blame-log combo
     bootstrap-parallel     [PROJECT...]               run the 'bootstrap' step for all or individual projects (in parallel)
     bootstrap              [PROJECT...]               run the 'bootstrap' step for all or individual projects
-    branch                 [GIT...]                   git branch -v for all/specified git repositories
     ...
 
     # ask for help for a particular command
@@ -202,28 +213,28 @@ In this part, we will give a brief introduction to a few useful commands. Try th
 
     # what is the current status of this project?
     $ ove status
-    .ove          ## master...origin/master
-    codechecker   ## master...origin/master
-    dmce          ## master...origin/master
-    ove-tutorial  ## master...origin/master
-    tmux          ## HEAD (no branch)
+    .ove          master   ## master...origin/master
+    codechecker   master   ## master...origin/master
+    dmce          master   ## master...origin/master
+    ove-tutorial  d78b9d9  ## master...origin/master
+    tmux          2.9      ## HEAD (no branch)
 
     # update some files
     $ sed -i '1i Hi all' */{README,README.md,docs/README.md}
 
     # what files got updated?
     $ ove status
-    .ove          ## master...origin/master
-    codechecker   ## master...origin/master  M docs/README.md
-    dmce          ## master...origin/master  M README.md
-    ove-tutorial  ## master...origin/master  M README.md
-    tmux          ## HEAD (no branch)  M README
+    .ove          master   ## master...origin/master
+    codechecker   master   ## master...origin/master  M docs/README.md
+    dmce          master   ## master...origin/master  M README.md
+    ove-tutorial  d78b9d9  ## master...origin/master  M README.md
+    tmux          2.9      ## HEAD (no branch)  M README
 
     # open all modified files in 'vi'
     $ ove vi
     ...
 
-    # interactively ask user what chunks to add in 'codechecker' and 'dmce'
+    # interactively ask user (using git add -p) what chunks to add in 'codechecker' and 'dmce'
     $ ove add codechecker dmce
     ...
 
@@ -232,11 +243,11 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     ...
 
     $ ove status
-    .ove          ## master...origin/master
-    codechecker   ## master...origin/master [ahead 1]
-    dmce          ## master...origin/master [ahead 1]
-    ove-tutorial  ## master...origin/master M README.md
-    tmux          ## HEAD (no branch)  M README
+    .ove          master   ## master...origin/master
+    codechecker   master   ## master...origin/master [ahead 1]
+    dmce          master   ## master...origin/master [ahead 1]
+    ove-tutorial  d78b9d9  ## master...origin/master M README.md
+    tmux          2.9      ## HEAD (no branch)  M README
 
     # check for new commits in a specific git repo
     $ ove fetch codechecker
@@ -260,11 +271,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker
     First, rewinding head to replay your work on top of it...
     Applying: Hi all
-    .ove          ## master...origin/master
-    codechecker   ## master...origin/master [ahead 1]
-    dmce          ## master...origin/master [ahead 1]
-    ove-tutorial  ## master...origin/master M README.md
-    tmux          ## HEAD (no branch)  M README
+    codechecker   master   ## master...origin/master [ahead 1]
 
 OVE does not have any "push" command(s). When you want to share these patches upstream, use the normal git workflow!
 
