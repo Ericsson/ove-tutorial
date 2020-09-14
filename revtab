@@ -3,3 +3,4 @@
 codechecker  https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  master
 dmce         https://github.com/PatrikAAberg/dmce.git     https://github.com/PatrikAAberg/dmce.git     master
 tmux         https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             2.9
+xcm          https://github.com/Ericsson/xcm.git          https://github.com/Ericsson/xcm.git          master

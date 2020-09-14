@@ -50,3 +50,7 @@ tmux:
     pkg-config
   path:
     tmux
+
+xcm:
+  path:
+    xcm

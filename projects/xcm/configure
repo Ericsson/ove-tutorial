@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+./configure --disable-tls --disable-xcm-tool --disable-lttng --prefix=$OVE_STAGE_DIR/usr

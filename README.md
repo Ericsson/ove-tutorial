@@ -52,23 +52,25 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
     Cloning into 'codechecker'...
     Cloning into 'dmce'...
     Cloning into 'tmux'...
+    Cloning into 'xcm'...
     ...
     .ove          master   ## master...origin/master
     codechecker   master   ## master...origin/master
     dmce          master   ## master...origin/master
     ove-tutorial  d78b9d9  ## master...origin/master
     tmux          2.9      ## HEAD (no branch)
+    xcm           master   ## master...origin/master
 
-Checking the content of your newly created workspace will reveal the source code repos (codechecker, dmce, tmux), the OWEL (ove-tutorial) and OVE itself:
+Checking the content of your newly created workspace will reveal the source code repos (codechecker, dmce, tmux, xcm), the OWEL (ove-tutorial) and OVE itself:
 
     $ ls -A
-    codechecker  dmce  ove  .ove  .ove.state  .ove.tmp  ove-tutorial  .owel  README  tmux
+    codechecker  dmce  ove  .ove  .ove.state  .ove.tmp  ove-tutorial  .owel  README  tmux  xcm
 
 The first part of the tutorial is done! You have enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Let us move on and build stuff!
 
 ## Part II: Build
 
-Your OVE workspace now consists of five git repositories (all from github.com) and five projects:
+Your OVE workspace now consists of six git repositories (all from github.com) and six projects:
 
     $ ove list-repositories
     .ove          https://github.com/Ericsson/ove.git          https://github.com/Ericsson/ove.git          master
@@ -76,6 +78,7 @@ Your OVE workspace now consists of five git repositories (all from github.com) a
     dmce          https://github.com/PatrikAAberg/dmce.git     https://github.com/PatrikAAberg/dmce.git     master
     ove-tutorial  https://github.com/Ericsson/ove-tutorial.git https://github.com/Ericsson/ove-tutorial.git master
     tmux          https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             2.9
+    xcm           https://github.com/Ericsson/xcm.git          https://github.com/tmux/xcm.git              master
 
     $ ove list-projects
     codechecker
@@ -83,13 +86,14 @@ Your OVE workspace now consists of five git repositories (all from github.com) a
     libevent
     ncurses
     tmux
+    xcm
 
 
 For OVE, a project is something that produces output (e.g. an executable, a library or anything else machine-made). Even though projects are normally contained within a  corresponding git repo, OVE treats projects and repos independently. Multiple projects can be configured using code and build systems from the same repo, and one project can use code and build systems from multiple repos.
 OVE keeps track of the dependencies between projects, so let us check the build order for the tutorial OWEL:
 
     $ ove build-order
-    codechecker dmce libevent ncurses tmux
+    codechecker dmce xcm libevent ncurses tmux
 
     $ ove digraph
     digraph ove_tutorial {
@@ -99,9 +103,10 @@ OVE keeps track of the dependencies between projects, so let us check the build 
         ncurses;
         tmux -> libevent;
         tmux -> ncurses;
+        xcm;
     }
 
-'**codechecker**' and '**dmce**' does not have any project dependencies and will be built first. '**tmux**' on the other hand needs both '**libevent**' and '**ncurses**' and will be built last.
+'**codechecker**', '**dmce**' and '**xcm**' does not have any project dependencies and will be built first. '**tmux**' on the other hand needs both '**libevent**' and '**ncurses**' and will be built last.
 
 Let us do a 'dry-run' build first:
 
@@ -126,48 +131,61 @@ Let us do a 'dry-run' build first:
     python-setuptools
     python-virtualenv
     thrift-compiler
-    2019-05-27 09:00:15.991281005 (+00:00:00:004413193):dmce: bootstrap
-    cd /root/ove/dmce && /root/ove/ove-tutorial/projects/dmce/bootstrap
-    2019-05-27 09:00:15.994350085 (+00:00:00:003069080):dmce: bootstrap: done
-    2019-05-27 09:00:15.998903938 (+00:00:00:004553853):libevent: bootstrap
-    cd /root/ove/libevent && /root/ove/ove-tutorial/projects/libevent/bootstrap
-    2019-05-27 09:00:16.002080645 (+00:00:00:003176707):libevent: bootstrap: done
-    2019-05-27 09:00:16.007579340 (+00:00:00:005498695):ncurses: bootstrap
-    cd /root/ove/ncurses && /root/ove/ove-tutorial/projects/ncurses/bootstrap
-    2019-05-27 09:00:16.012477340 (+00:00:00:004898000):ncurses: bootstrap: done
-    2019-05-27 09:00:16.017780778 (+00:00:00:005303438):tmux: bootstrap
-    cd /root/ove/tmux && /root/ove/ove-tutorial/projects/tmux/bootstrap
-    2019-05-27 09:00:16.022573403 (+00:00:00:004792625):tmux: bootstrap: done
-    2019-05-27 09:00:16.028434412 (+00:00:00:005861009):codechecker: build
-    cd /root/ove/codechecker && /root/ove/ove-tutorial/projects/codechecker/build
-    2019-05-27 09:00:16.033221461 (+00:00:00:004787049):codechecker: build: done
-    2019-05-27 09:00:16.039264356 (+00:00:00:006042895):libevent: configure
-    cd /root/ove/libevent && /root/ove/ove-tutorial/projects/libevent/configure
-    2019-05-27 09:00:16.044322103 (+00:00:00:005057747):libevent: configure: done
-    2019-05-27 09:00:16.049945744 (+00:00:00:005623641):libevent: build
-    cd /root/ove/libevent && /root/ove/ove-tutorial/projects/libevent/build
-    2019-05-27 09:00:16.054730696 (+00:00:00:004784952):libevent: build: done
-    2019-05-27 09:00:16.060096456 (+00:00:00:005365760):libevent: install
-    cd /root/ove/libevent && /root/ove/ove-tutorial/projects/libevent/install
-    2019-05-27 09:00:16.065103280 (+00:00:00:005006824):libevent: install: done
-    2019-05-27 09:00:16.070573017 (+00:00:00:005469737):ncurses: configure
-    cd /root/ove/ncurses && /root/ove/ove-tutorial/projects/ncurses/configure
-    2019-05-27 09:00:16.075670678 (+00:00:00:005097661):ncurses: configure: done
-    2019-05-27 09:00:16.081257923 (+00:00:00:005587245):ncurses: build
-    cd /root/ove/ncurses && /root/ove/ove-tutorial/projects/ncurses/build
-    2019-05-27 09:00:16.086333692 (+00:00:00:005075769):ncurses: build: done
-    2019-05-27 09:00:16.091945760 (+00:00:00:005612068):ncurses: install
-    cd /root/ove/ncurses && /root/ove/ove-tutorial/projects/ncurses/install
-    2019-05-27 09:00:16.096863762 (+00:00:00:004918002):ncurses: install: done
-    2019-05-27 09:00:16.102191679 (+00:00:00:005327917):tmux: configure
-    cd /root/ove/tmux && /root/ove/ove-tutorial/projects/tmux/configure
-    2019-05-27 09:00:16.107158907 (+00:00:00:004967228):tmux: configure: done
-    2019-05-27 09:00:16.113643096 (+00:00:00:006484189):tmux: build
-    cd /root/ove/tmux && /root/ove/ove-tutorial/projects/tmux/build
-    2019-05-27 09:00:16.118796787 (+00:00:00:005153691):tmux: build: done
-    2019-05-27 09:00:16.124239108 (+00:00:00:005442321):tmux: install
-    cd /root/ove/tmux && /root/ove/ove-tutorial/projects/tmux/install
-    2019-05-27 09:00:16.129281178 (+00:00:00:005042070):tmux: install: done
+
+    2020-09-14 08:51:20.000446089 (+00:01:48:926002802):dmce: bootstrap
+    cd /root/ove/ove-tutorial/dmce && /root/ove/ove-tutorial/ove-tutorial/projects/dmce/bootstrap
+    2020-09-14 08:51:20.008529897 (+00:00:00:008083808):dmce: bootstrap: done
+    2020-09-14 08:51:20.023348560 (+00:00:00:014818663):xcm: bootstrap
+    cd /root/ove/ove-tutorial/xcm && /root/ove/ove-tutorial/ove-tutorial/projects/xcm/bootstrap
+    2020-09-14 08:51:20.035435920 (+00:00:00:012087360):xcm: bootstrap: done
+    2020-09-14 08:51:20.049928310 (+00:00:00:014492390):libevent: bootstrap
+    cd /root/ove/ove-tutorial/libevent && /root/ove/ove-tutorial/ove-tutorial/projects/libevent/bootstrap
+    2020-09-14 08:51:20.060426359 (+00:00:00:010498049):libevent: bootstrap: done
+    2020-09-14 08:51:20.077421133 (+00:00:00:016994774):ncurses: bootstrap
+    cd /root/ove/ove-tutorial/ncurses && /root/ove/ove-tutorial/ove-tutorial/projects/ncurses/bootstrap
+    2020-09-14 08:51:20.091968697 (+00:00:00:014547564):ncurses: bootstrap: done
+    2020-09-14 08:51:20.109279194 (+00:00:00:017310497):tmux: bootstrap
+    cd /root/ove/ove-tutorial/tmux && /root/ove/ove-tutorial/ove-tutorial/projects/tmux/bootstrap
+    2020-09-14 08:51:20.126547583 (+00:00:00:017268389):tmux: bootstrap: done
+    2020-09-14 08:51:20.148767522 (+00:00:00:022219939):codechecker: build
+    cd /root/ove/ove-tutorial/codechecker && /root/ove/ove-tutorial/ove-tutorial/projects/codechecker/build
+    2020-09-14 08:51:20.162019327 (+00:00:00:013251805):codechecker: build: done
+    2020-09-14 08:51:20.189839073 (+00:00:00:027819746):xcm: configure
+    cd /root/ove/ove-tutorial/xcm && /root/ove/ove-tutorial/ove-tutorial/projects/xcm/configure
+    2020-09-14 08:51:20.199349649 (+00:00:00:009510576):xcm: configure: done
+    2020-09-14 08:51:20.214720988 (+00:00:00:015371339):xcm: build
+    cd /root/ove/ove-tutorial/xcm && /root/ove/ove-tutorial/ove-tutorial/projects/xcm/build
+    2020-09-14 08:51:20.231518377 (+00:00:00:016797389):xcm: build: done
+    2020-09-14 08:51:20.250685616 (+00:00:00:019167239):xcm: install
+    cd /root/ove/ove-tutorial/xcm && /root/ove/ove-tutorial/ove-tutorial/projects/xcm/install
+    2020-09-14 08:51:20.266696846 (+00:00:00:016011230):xcm: install: done
+    2020-09-14 08:51:20.284269540 (+00:00:00:017572694):libevent: configure
+    cd /root/ove/ove-tutorial/libevent && /root/ove/ove-tutorial/ove-tutorial/projects/libevent/configure
+    2020-09-14 08:51:20.301842634 (+00:00:00:017573094):libevent: configure: done
+    2020-09-14 08:51:20.318503283 (+00:00:00:016660649):libevent: build
+    cd /root/ove/ove-tutorial/libevent && /root/ove/ove-tutorial/ove-tutorial/projects/libevent/build
+    2020-09-14 08:51:20.337544517 (+00:00:00:019041234):libevent: build: done
+    2020-09-14 08:51:20.361461548 (+00:00:00:023917031):libevent: install
+    cd /root/ove/ove-tutorial/libevent && /root/ove/ove-tutorial/ove-tutorial/projects/libevent/install
+    2020-09-14 08:51:20.374159184 (+00:00:00:012697636):libevent: install: done
+    2020-09-14 08:51:20.387922998 (+00:00:00:013763814):ncurses: configure
+    cd /root/ove/ove-tutorial/ncurses && /root/ove/ove-tutorial/ove-tutorial/projects/ncurses/configure
+    2020-09-14 08:51:20.403197721 (+00:00:00:015274723):ncurses: configure: done
+    2020-09-14 08:51:20.414664176 (+00:00:00:011466455):ncurses: build
+    cd /root/ove/ove-tutorial/ncurses && /root/ove/ove-tutorial/ove-tutorial/projects/ncurses/build
+    2020-09-14 08:51:20.424169640 (+00:00:00:009505464):ncurses: build: done
+    2020-09-14 08:51:20.437513878 (+00:00:00:013344238):ncurses: install
+    cd /root/ove/ove-tutorial/ncurses && /root/ove/ove-tutorial/ove-tutorial/projects/ncurses/install
+    2020-09-14 08:51:20.450696709 (+00:00:00:013182831):ncurses: install: done
+    2020-09-14 08:51:20.468480452 (+00:00:00:017783743):tmux: configure
+    cd /root/ove/ove-tutorial/tmux && /root/ove/ove-tutorial/ove-tutorial/projects/tmux/configure
+    2020-09-14 08:51:20.484651391 (+00:00:00:016170939):tmux: configure: done
+    2020-09-14 08:51:20.504082513 (+00:00:00:019431122):tmux: build
+    cd /root/ove/ove-tutorial/tmux && /root/ove/ove-tutorial/ove-tutorial/projects/tmux/build
+    2020-09-14 08:51:20.519958130 (+00:00:00:015875617):tmux: build: done
+    2020-09-14 08:51:20.540685476 (+00:00:00:020727346):tmux: install
+    cd /root/ove/ove-tutorial/tmux && /root/ove/ove-tutorial/ove-tutorial/projects/tmux/install
+    2020-09-14 08:51:20.557312446 (+00:00:00:016626970):tmux: install: done
 
 When making this tutorial we used an Ubuntu 18.04 [LXC container](https://us.images.linuxcontainers.org), hence the "/root/" path.
 
@@ -218,6 +236,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     dmce          master   ## master...origin/master
     ove-tutorial  d78b9d9  ## master...origin/master
     tmux          2.9      ## HEAD (no branch)
+    xcm           master   ## master...origin/master
 
     # update some files
     $ sed -i '1i Hi all' */{README,README.md,docs/README.md}
@@ -229,6 +248,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     dmce          master   ## master...origin/master  M README.md
     ove-tutorial  d78b9d9  ## master...origin/master  M README.md
     tmux          2.9      ## HEAD (no branch)  M README
+    xcm           master   ## master...origin/master  M README.md
 
     # open all modified files in 'vi'
     $ ove vi
@@ -248,6 +268,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     dmce          master   ## master...origin/master [ahead 1]
     ove-tutorial  d78b9d9  ## master...origin/master M README.md
     tmux          2.9      ## HEAD (no branch)  M README
+    xcm           master   ## master...origin/master  M README.md
 
     # check for new commits in a specific git repo
     $ ove fetch codechecker
@@ -304,7 +325,7 @@ All executable files in these three directories will be added to OVE command lis
 Now we can run 'codechecker' like this:
 
     $ ove codechecker <tab><tab>
-    dmce libevent ncurses tmux
+    dmce libevent ncurses tmux xcm
 
     $ ove codechecker libevent
     CodeChecker for libevent...
