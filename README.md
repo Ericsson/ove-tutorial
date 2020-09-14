@@ -55,7 +55,7 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
     Cloning into 'xcm'...
     ...
     .ove          master   ## master...origin/master
-    codechecker   master   ## master...origin/master
+    codechecker   v6.12.1  ## HEAD (no branch)
     dmce          master   ## master...origin/master
     ove-tutorial  d78b9d9  ## master...origin/master
     tmux          2.9      ## HEAD (no branch)
@@ -74,7 +74,7 @@ Your OVE workspace now consists of six git repositories (all from github.com) an
 
     $ ove list-repositories
     .ove          https://github.com/Ericsson/ove.git          https://github.com/Ericsson/ove.git          master
-    codechecker   https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  master
+    codechecker   https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  v6.12.1
     dmce          https://github.com/PatrikAAberg/dmce.git     https://github.com/PatrikAAberg/dmce.git     master
     ove-tutorial  https://github.com/Ericsson/ove-tutorial.git https://github.com/Ericsson/ove-tutorial.git master
     tmux          https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             2.9
@@ -232,7 +232,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     # what is the current status of this project?
     $ ove status
     .ove          master   ## master...origin/master
-    codechecker   master   ## master...origin/master
+    codechecker   v6.12.1  ## HEAD (no branch)
     dmce          master   ## master...origin/master
     ove-tutorial  d78b9d9  ## master...origin/master
     tmux          2.9      ## HEAD (no branch)
@@ -244,7 +244,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     # what files got updated?
     $ ove status
     .ove          master   ## master...origin/master
-    codechecker   master   ## master...origin/master  M docs/README.md
+    codechecker   v6.12.1  ## HEAD (no branch)  M docs/README.md
     dmce          master   ## master...origin/master  M README.md
     ove-tutorial  d78b9d9  ## master...origin/master  M README.md
     tmux          2.9      ## HEAD (no branch)  M README
@@ -254,45 +254,45 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     $ ove vi
     ...
 
-    # interactively ask user (using git add -p) what chunks to add in 'codechecker' and 'dmce'
-    $ ove add codechecker dmce
+    # interactively ask user (using git add -p) what chunks to add in 'dmce'
+    $ ove add dmce
     ...
 
-    # create commits for all staged changes
+    # create a commit for the staged changes in 'dmce'
     $ ove commit
     ...
 
     $ ove status
     .ove          master   ## master...origin/master
-    codechecker   master   ## master...origin/master [ahead 1]
+    codechecker   v6.12.1  ## HEAD (no branch)  M docs/README.md
     dmce          master   ## master...origin/master [ahead 1]
     ove-tutorial  d78b9d9  ## master...origin/master M README.md
     tmux          2.9      ## HEAD (no branch)  M README
     xcm           master   ## master...origin/master  M README.md
 
     # check for new commits in a specific git repo
-    $ ove fetch codechecker
-    Fetching origin for codechecker
+    $ ove fetch dmce
+    Fetching origin for dmce
     ...
-       f6ea954a..5c2b56bb  master     -> origin/master
-    codechecker  ## master...origin/master [ahead 1, behind 2]
+       4aa5c56..d3400f5  master     -> origin/master
+    dmce ## master...origin/master [ahead 1, behind 2]
 
     # hmm, what got pushed upstream?
     $ ove news
-    codechecker: 2 new commit(s):
-    5c2b56bb 84 minutes ago  email-A  subject X
-    2d7eeebd  2 hours ago    email-B  subject Y
+    dmce: 2 new commit(s):
+    d3400f5 84 minutes ago  email-A  subject X
+    d6c7e7c  2 hours ago    email-B  subject Y
 
     # take a look at one of these commits
-    $ ove show 2d7<tab>
-    $ ove show 2d7eeebd
+    $ ove show d3<tab>
+    $ ove show d3400f5
 
-    # rebase codechecker
-    $ ove pull codechecker
-    codechecker
+    # rebase dmce
+    $ ove pull dmce
+    dmce
     First, rewinding head to replay your work on top of it...
     Applying: Hi all
-    codechecker   master   ## master...origin/master [ahead 1]
+    dmce  master   ## master...origin/master [ahead 1]
 
 OVE does not have any "push" command(s). When you want to share these patches upstream, use the normal git workflow!
 
@@ -388,7 +388,7 @@ You can try them out:
     ove-systest:[001/001 OK]:t1
 
 
-    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155603496153257-ove-systest-elxa3wb5lz1.log
+    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155603496153257-ove-systest-ahost.log
 
     $ ove systest t2
     ove-systest:[001/001    ]:t2
@@ -396,14 +396,14 @@ You can try them out:
     ove-systest:[001/001 OK]:t2
 
 
-    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155613260889322-ove-systest-elxa3wb5lz1.log
+    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155613260889322-ove-systest-ahost.log
 
     $ove systest t3
     ove-systest:[001/001    ]:t3
     ove-systest:[001/001 NOK TIMEOUT]:t3
 
 
-    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155616418011546-ove-systest-elxa3wb5lz1.log
+    OVE log: /tmp/$USER/ove/logs/fab64a1/20190607-155616418011546-ove-systest-ahost.log
 
 The first two tests will pass and the third will fail. The reason for failing the third test is of course the timeout being shorter than the argument to sleep.
 
