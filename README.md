@@ -27,14 +27,6 @@ The '**setup**' script will now ask you to enter the '**my-ove-workspace**' dire
     $ source ove
     OVE [SHA-1: 0959726 @ Ubuntu 18.04]
 
-    This script will do a few things:
-
-    * add 120 bash functions:
-    ove-!   ove-config    ove-lastlog       ove-refresh
-    ove-add ove-configure ove-list-commands ove-remote
-    ...
-    Now what? Run 'ove fetch' to sync with the outside world or 'ove help' for more information
-
 If you are missing some of the required dependencies on your host, OVE will let you know and suggest a solution:
 
     $ source ove
