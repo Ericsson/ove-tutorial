@@ -119,9 +119,9 @@ Let us do a 'dry-run' build first:
     graphviz
     libtool
     pkg-config
-    python-dev
-    python-setuptools
-    python-virtualenv
+    python3-dev
+    python3-setuptools
+    python3-virtualenv
     thrift-compiler
 
     2020-09-14 08:51:20.000446089 (+00:01:48:926002802):dmce: bootstrap

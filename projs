@@ -9,9 +9,9 @@ codechecker:
     gcc-multilib
     git
     graphviz
-    python-dev
-    python-setuptools
-    python-virtualenv
+    python3-dev
+    python3-setuptools
+    python3-virtualenv
     thrift-compiler
   path:
     codechecker
