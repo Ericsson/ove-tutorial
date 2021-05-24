@@ -25,18 +25,18 @@ For the interested, the above oneliner runs the code in the snippet below. PLEAS
 The '**setup**' script will now ask you to enter the '**my-ove-workspace**' directory and run '**source ove**', please do so. You should observe the following:
 
     $ source ove
-    OVE [SHA-1: 0959726 @ Ubuntu 18.04]
+    OVE [SHA-1: 04c8b0b @ Ubuntu 18.04]
 
 If you are missing some of the required dependencies on your host, OVE will let you know and suggest a solution:
 
     $ source ove
     error: missing command(s):
 
-        tree
+        ld
 
     To fix this, run the following command:
 
-        apt install tree
+        apt install binutils
 
 Now, run '**ove fetch**' to clone the rest of the repositories:
 
@@ -205,21 +205,22 @@ As mentioned [here](https://github.com/Ericsson/ove), OVE commands are divided i
 In this part, we will give a brief introduction to a few useful commands. Try them out! Then go ahead and investigate the full list using the first command below. A majority of the commands are tab completion enabled.
 
     $ ove list-commands
-    add                    [GIT...]                   git add -p for all/specified repositories
-    ag                     PATTERN                    search using The Silver Searcher
-    ahead                  [GIT...]                   list local commits not yet published for all/specified repositories
-    am                     FILE                       apply a bz2 archive file created with 'format-patch'
-    apply                  PATCH                      apply one OVE patch
-    authors                                           summarize authors from tracked repositories
-    blame-history          PATTERN                    git log -S for all git repositories
-    blame                  PATTERN                    git grep-blame-log combo
-    bootstrap-parallel     [PROJECT...]               run the 'bootstrap' step for all or individual projects (in parallel)
-    bootstrap              [PROJECT...]               run the 'bootstrap' step for all or individual projects
+    add-config             file config value          add config/value pair to one oveconfig file
+    add-repo               url|url name|url name rev  add a new repo to this OVE workspace
+    add                    [git...]                   git add -p for all/specified repositories
+    ag                     pattern                    search OVE workspace using The Silver Searcher [duckduckgo.com/?q=The+Silver+Searcher]
+    ahead                  [git...]                   list local commits not yet published for all/specified repositories
+    am                     file                       apply a bz2 archive file created with 'format-patch'
+    apply                  patch                      apply one OVE patch
+    authors                                           list author summary for all git repositories
+    blame-history          pattern                    git log -G -p pattern for all git repositories
+    blame                  pattern                    git grep-blame-log combo
     ...
 
     # ask for help for a particular command
-    $ ove help add
-    add                    [GIT...]                   git add -p for all/specified repositories
+    $ ove help news
+    news                   [git...]                   list upstream changes for all/specified repositories
+    ...
 
     # what is the current status of this project?
     $ ove status
@@ -246,7 +247,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     $ ove vi
     ...
 
-    # interactively ask user (using git add -p) what chunks to add in 'dmce'
+    # interactively ask user (using git add -p) what chunks to add in repo 'dmce'
     $ ove add dmce
     ...
 

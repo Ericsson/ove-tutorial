@@ -26,6 +26,7 @@ libevent:
   needs:
     curl
     libtool
+    make
   path:
     libevent
   version:
@@ -34,6 +35,7 @@ libevent:
 ncurses:
   needs:
     curl
+    make
   path:
     ncurses
   version:
@@ -47,10 +49,16 @@ tmux:
     autoconf
     automake
     bison
+    make
     pkg-config
   path:
     tmux
 
 xcm:
+  needs:
+    autoconf
+    automake
+    libtool
+    make
   path:
     xcm
