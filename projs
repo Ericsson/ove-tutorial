@@ -1,7 +1,6 @@
 ---
 codechecker:
   needs:
-    build-essential
     clang
     clang-tidy
     curl
@@ -13,6 +12,10 @@ codechecker:
     python3-setuptools
     python3-virtualenv
     thrift-compiler
+  needs_debian:
+    build-essential
+  needs_alpine:
+    build-base
   path:
     codechecker
 
@@ -51,8 +54,10 @@ tmux:
     bison
     make
   needs_debian:
+    build-essential
     pkg-config
   needs_alpine:
+    build-base
     pkgconfig
   path:
     tmux
