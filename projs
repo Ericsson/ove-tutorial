@@ -50,7 +50,10 @@ tmux:
     automake
     bison
     make
+  needs_debian:
     pkg-config
+  needs_alpine:
+    pkgconfig
   path:
     tmux
 
