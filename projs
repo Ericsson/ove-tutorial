@@ -59,6 +59,8 @@ tmux:
   needs_alpine:
     build-base
     pkgconfig
+  needs_void:
+    pkg-config
   path:
     tmux
 
