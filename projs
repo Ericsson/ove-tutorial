@@ -16,6 +16,8 @@ codechecker:
     build-essential
   needs_alpine:
     build-base
+  needs_void:
+    base-devel
   path:
     codechecker
 
@@ -60,6 +62,7 @@ tmux:
     build-base
     pkgconfig
   needs_void:
+    base-devel
     pkg-config
   path:
     tmux
