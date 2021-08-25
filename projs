@@ -64,6 +64,9 @@ tmux:
   needs_void:
     base-devel
     pkg-config
+  needs_arch:
+    base-devel
+    pkgconfig
   path:
     tmux
 
