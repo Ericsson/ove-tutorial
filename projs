@@ -28,6 +28,8 @@ dmce:
     rsync
   needs_debian:
     clang-tools
+  needs_fedora:
+    clang-tools-extra
   path:
     dmce
 
