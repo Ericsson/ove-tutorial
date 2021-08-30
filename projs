@@ -26,6 +26,8 @@ dmce:
     bc
     python3
     rsync
+  needs_arch:
+    clang
   needs_debian:
     clang-tools
   needs_fedora:
