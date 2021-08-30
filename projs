@@ -24,6 +24,10 @@ codechecker:
 dmce:
   needs:
     bc
+    python3
+    rsync
+  needs_debian:
+    clang-tools
   path:
     dmce
 
