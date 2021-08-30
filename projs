@@ -24,6 +24,7 @@ codechecker:
 dmce:
   needs:
     bc
+    perl
     python3
     rsync
   needs_alpine:
