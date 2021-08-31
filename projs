@@ -1,4 +1,18 @@
 ---
+base:
+  needs_debian:
+    build-essential
+    pkg-config
+  needs_alpine:
+    build-base
+    pkgconfig
+  needs_void:
+    base-devel
+    pkg-config
+  needs_arch:
+    base-devel
+    pkgconfig
+
 codechecker:
   needs:
     clang
@@ -22,6 +36,8 @@ codechecker:
     codechecker
 
 dmce:
+  deps:
+    base
   needs:
     bc
     perl
@@ -63,6 +79,7 @@ ncurses:
 
 tmux:
   deps:
+    base
     libevent
     ncurses
   needs:
@@ -70,18 +87,6 @@ tmux:
     automake
     bison
     make
-  needs_debian:
-    build-essential
-    pkg-config
-  needs_alpine:
-    build-base
-    pkgconfig
-  needs_void:
-    base-devel
-    pkg-config
-  needs_arch:
-    base-devel
-    pkgconfig
   path:
     tmux
 
