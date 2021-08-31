@@ -75,6 +75,7 @@ Your OVE workspace now consists of six git repositories (all from github.com) an
     xcm           https://github.com/Ericsson/xcm.git          https://github.com/tmux/xcm.git              master
 
     $ ove list-projects
+    base
     codechecker
     dmce
     libevent
@@ -87,20 +88,22 @@ For OVE, a project is something that produces output (e.g. an executable, a libr
 OVE keeps track of the dependencies between projects, so let us check the build order for the tutorial OWEL:
 
     $ ove build-order
-    codechecker dmce xcm libevent ncurses tmux
+    base libevent ncurses xcm tmux dmce codechecker
 
     $ ove digraph
     digraph ove_tutorial {
-        codechecker;
-        dmce;
-        libevent;
-        ncurses;
+        base;
+        codechecker -> base;
+        dmce -> base;
+        libevent -> base;
+        ncurses -> base;
+        tmux -> base;
         tmux -> libevent;
         tmux -> ncurses;
-        xcm;
+        xcm -> base;
     }
 
-'**codechecker**', '**dmce**' and '**xcm**' does not have any project dependencies and will be built first. '**tmux**' on the other hand needs both '**libevent**' and '**ncurses**' and will be built last.
+All projects are dependent on '**base**' (=gcc/make/... etc.).
 
 Let us do a 'dry-run' build first:
 
@@ -111,19 +114,25 @@ Let us do a 'dry-run' build first:
     2019-05-27 09:00:15.986867812 (+00:00:00:000000000):Would prompt to install this/these package(s):
     autoconf
     automake
+    bc
     bison
     build-essential
     clang
     clang-tidy
     clang-tools
+    curl
     doxygen
     gcc-multilib
     graphviz
     libtool
+    make
+    perl
     pkg-config
+    python3
     python3-dev
     python3-setuptools
     python3-virtualenv
+    rsync
     thrift-compiler
 
     2020-09-14 08:51:20.000446089 (+00:01:48:926002802):dmce: bootstrap
@@ -188,7 +197,7 @@ As seen above the '**buildme**' command will check for any missing packages (spe
 If you are on Ubuntu/Debian, you could try to build everything without 'dry-run':
 
     $ ove dry-run 0
-    $ ove buildme
+    $ ove buildme tmux
     # go grab a cup of tea
     $ stage/usr/bin/tmux -V
     tmux 2.9
