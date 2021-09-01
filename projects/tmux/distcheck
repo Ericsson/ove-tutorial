@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+ove fetch tmux
+ove buildme-parallel tmux
+${OVE_STAGE_DIR}/usr/bin/tmux -V
