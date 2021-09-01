@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -e
+
+ove fetch dmce
+ove dist dmce
+
+cd "${OVE_BASE_DIR:?}"/dmce
+
+if [[ "${OVE_OS_ID_LIKE}" == *debian* ]]; then
+	d="$(find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -type f)"
+	if [ "x${d}" = "x" ]; then
+		echo "error: deb package not found"
+		exit 1
+	fi
+
+	if [ ${EUID} -ne 0 ]; then
+		if ! dpkg-deb -x "${d}" "${OVE_STAGE_DIR:?}"; then
+			echo "error: 'dpkg -x ${d} ${OVE_STAGE_DIR}' failed"
+			exit 1
+		elif ! dmce-configure-local; then
+			echo "error: 'dmce-configure-local' failed"
+			exit 1
+		fi
+	else
+		if ! dpkg -i "${d}"; then
+			echo "error: 'dpkg -i ${d}' failed"
+			exit 1
+		elif ! dmce-configure-global; then
+			echo "error: 'dmce-configure-global' failed"
+			exit 1
+		fi
+	fi
+elif ! ./dmce-configure-local; then
+	echo "error: 'dmce-configure-local' failed"
+	exit 1
+fi
+
+ove fetch tmux
+ove dmce tmux
+ove status tmux
