@@ -4,7 +4,3 @@ CODECHECKER_ARGS    --enable-all
 CODECHECKER_CLANG   /usr/bin/clang-8
 # CodeChecker clang-tidy version
 CODECHECKER_TIDY    /usr/bin/clang-tidy-8
-# dmce: launch command
-DMCE_LAUNCHER       $OVE_BASE_DIR/dmce/dmce-launcher -n 10
-# dmce: clean command
-DMCE_CLEANER        $OVE_BASE_DIR/dmce/dmce-launcher -c
