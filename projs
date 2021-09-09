@@ -35,7 +35,6 @@ dmce:
   deps:
     base
   needs:
-    bc
     perl
     python3
     rsync
