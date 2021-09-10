@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if ! command -v cram > /dev/null; then
+	echo "error: cram not found, try:"
+	echo "$ pip3 install cram"
+	exit 1
+fi
+
+if ! \grep -q ^test: Makefile; then
+	echo "error: could not find the test target"
+	exit 1
+fi
+
+\make test

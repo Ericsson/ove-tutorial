@@ -1,6 +1,7 @@
-# name       fetch URL                                    push URL                                     rev
-.ove         https://github.com/Ericsson/ove.git          https://github.com/Ericsson/ove.git          master
-codechecker  https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  v6.12.1
-dmce         https://github.com/PatrikAAberg/dmce.git     https://github.com/PatrikAAberg/dmce.git     master
-tmux         https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             2.9
-xcm          https://github.com/Ericsson/xcm.git          https://github.com/Ericsson/xcm.git          master
+# name       fetch URL                                          push URL                                           rev
+.ove         https://github.com/Ericsson/ove.git                https://github.com/Ericsson/ove.git                master
+ag           https://github.com/ggreer/the_silver_searcher.git  https://github.com/ggreer/the_silver_searcher.git  master
+codechecker  https://github.com/Ericsson/codechecker.git        https://github.com/Ericsson/codechecker.git        v6.12.1
+dmce         https://github.com/PatrikAAberg/dmce.git           https://github.com/PatrikAAberg/dmce.git           master
+tmux         https://github.com/tmux/tmux.git                   https://github.com/tmux/tmux.git                   2.9
+xcm          https://github.com/Ericsson/xcm.git                https://github.com/Ericsson/xcm.git                master

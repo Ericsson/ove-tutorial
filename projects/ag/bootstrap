@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [ -e autogen.sh ]; then
+	./autogen.sh
+fi

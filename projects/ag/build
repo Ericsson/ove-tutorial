@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ -e autogen.sh ]; then
+	make -j
+else
+	./build.sh
+fi
