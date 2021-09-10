@@ -35,9 +35,7 @@ dmce:
   deps:
     base
   needs:
-    perl
     python3
-    rsync
   needs_alpine:
     clang-extra-tools
   needs_arch:
