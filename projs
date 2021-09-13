@@ -109,6 +109,7 @@ ag:
     pcre-dev
     py3-pip
     zlib-dev
+    xz-dev
   needs_fedora:
     automake
     zlib-devel
