@@ -102,16 +102,15 @@ ag:
   deps:
     base
   needs:
+    automake
     python3
   needs_alpine:
     autoconf
-    automake
     pcre-dev
     py3-pip
     zlib-dev
     xz-dev
   needs_fedora:
-    automake
     zlib-devel
     pcre-devel
     xz-devel
