@@ -3,5 +3,5 @@
 if [ -e autogen.sh ]; then
 	make -j
 else
-	./build.sh
+	./build.sh --prefix="${OVE_STAGE_DIR}/usr"
 fi
