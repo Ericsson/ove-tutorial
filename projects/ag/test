@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
 if ! command -v cram > /dev/null; then
-	echo "error: cram not found, try:"
-	echo "$ pip3 install cram"
-	exit 1
+	if command -v cram3 > /dev/null; then
+		(mkdir -p ${OVE_STAGE_DIR:?}/${OVE_PREFIX}/bin; cd ${OVE_STAGE_DIR:?}/${OVE_PREFIX}/bin; ln -s $(command -v cram3) cram)
+	else
+		echo "error: cram not found, try:"
+		echo "$ pip3 install cram"
+		exit 1
+	fi
 fi
 
 if ! \grep -q ^test: Makefile; then
