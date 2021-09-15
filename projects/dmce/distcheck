@@ -39,3 +39,9 @@ fi
 ove fetch tmux
 ove dmce tmux
 ove status tmux
+ove fetch ag
+ove revtab-check 0
+if [ -s "$HOME/.dmceconfig" ]; then
+	sed -i -e 's,dmce-probe-user,dmce-probe-syslog,g' "$HOME/.dmceconfig"
+fi
+ove dmce-cov ag ag 3 2.2.0 2.1.0 2.0.0 1.0.3 1.0.2 1.0.1 1.0.0
