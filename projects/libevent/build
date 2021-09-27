@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-make -C libevent-${libevent_version}-stable -j$(nproc)
+make -C libevent-${libevent_version}-stable

@@ -50,7 +50,6 @@ for p in $projs; do
 	$OVE_BASE_DIR/codechecker/build/CodeChecker/bin/CodeChecker \
 			check \
 			-b "bash -c \"$OVE_INIT_STRING; ove-clean $p; ove-build $p\"" \
-			-j$(nproc) \
 			$CODECHECKERS_ARGS \
 			-o ./reports
 	ret=$?
