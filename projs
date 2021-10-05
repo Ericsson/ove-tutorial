@@ -95,6 +95,7 @@ xcm:
     automake
     libtool
     make
+    python3-flake8
   path:
     xcm
 
