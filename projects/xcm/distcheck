@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+ove fetch xcm
+ove buildme-parallel xcm
