@@ -40,6 +40,7 @@ ove test dmce
 ove fetch tmux
 ove dmce tmux
 ove status tmux
+ove buildme-parallel tmux
 ove fetch ag
 ove revtab-check 0
 if [ -s "$HOME/.dmceconfig" ]; then
