@@ -36,6 +36,7 @@ dmce:
     base
   needs:
     python3
+    wget
   needs_alpine:
     clang-extra-tools
   needs_arch:
