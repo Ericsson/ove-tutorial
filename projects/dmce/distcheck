@@ -36,6 +36,7 @@ elif ! ./dmce-configure-local; then
 	exit 1
 fi
 
+ove test dmce
 ove fetch tmux
 ove dmce tmux
 ove status tmux
