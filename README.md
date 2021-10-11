@@ -69,7 +69,7 @@ Your OVE workspace now consists of six git repositories (all from github.com) an
     $ ove list-repositories
     .ove          https://github.com/Ericsson/ove.git          https://github.com/Ericsson/ove.git          master
     codechecker   https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  v6.12.1
-    dmce          https://github.com/PatrikAAberg/dmce.git     https://github.com/PatrikAAberg/dmce.git     master
+    dmce          https://github.com/PatrikAAberg/dmce.git     git@github.com:PatrikAAberg/dmce.git         master
     ove-tutorial  https://github.com/Ericsson/ove-tutorial.git https://github.com/Ericsson/ove-tutorial.git master
     tmux          https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             2.9
     xcm           https://github.com/Ericsson/xcm.git          https://github.com/tmux/xcm.git              master
