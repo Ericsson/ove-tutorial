@@ -3,6 +3,7 @@
 set -e
 
 ove fetch dmce
+ove buildme dmce
 ove dist dmce
 
 cd "${OVE_BASE_DIR:?}"/dmce
