@@ -15,12 +15,11 @@ Run the oneliner:
 
 For the interested, the above oneliner runs the code in the snippet below. PLEASE NOTE: Do not manually run them, they are only there to shine light over the oneliner you have already executed. Most people do not really have to care about what the setup script is doing so let us skip below code snippet and move on!
 
-    $ #Short description of what the oneliner setup script is actually doing
-    $ #mkdir -vp ove
+    $ # short description of what the oneliner setup script is actually doing
+    $ #mkdir -p ove
     $ #cd ove
-    $ #git clone https://github.com/Ericsson/ove.git .ove &
-    $ #git clone https://github.com/Ericsson/ove-tutorial &
-    $ #wait
+    $ #git clone -q https://github.com/Ericsson/ove-tutorial
+    $ #git clone -q https://github.com/Ericsson/ove.git .ove
     $ #ln -s ove-tutorial .owel
     $ #ln -s .ove/ove ove
 
