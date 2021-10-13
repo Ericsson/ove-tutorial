@@ -1,1 +1,1 @@
-curl -sSL https://raw.githubusercontent.com/Ericsson/ove/master/setup | bash -s ove https://github.com/Ericsson/ove-tutorial
+curl -sSL https://raw.githubusercontent.com/Ericsson/ove/master/setup | bash -s ove-workspace https://github.com/Ericsson/ove-tutorial
