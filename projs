@@ -31,24 +31,29 @@ codechecker:
   path:
     codechecker
 
-dmce:
-  deps:
-    base
-  needs:
-    python3
-    wget
+clang_tools:
   needs_alpine:
     clang-extra-tools
   needs_arch:
     clang
   needs_debian:
     clang-tools
+  needs_ubuntu_16_04:
+    clang-tools-8
   needs_fedora:
     clang-tools-extra
   needs_suse:
     clang
   needs_void:
     clang-tools-extra
+
+dmce:
+  deps:
+    base
+    clang_tools
+  needs:
+    python3
+    wget
   path:
     dmce
 

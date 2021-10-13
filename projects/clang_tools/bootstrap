@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ "$OVE_OS" == "Ubuntu" ] && \
+	[ "$OVE_OS_VER" == "16.04" ] && \
+	[ -s /usr/bin/clang-check-8 ] && \
+	[ ! -L ${OVE_STAGE_DIR}${OVE_PREFIX}/bin/clang-check ]; then
+	mkdir -p ${OVE_STAGE_DIR}${OVE_PREFIX}/bin
+	ln -f -s /usr/bin/clang-check-8 ${OVE_STAGE_DIR}${OVE_PREFIX}/bin/clang-check
+fi
