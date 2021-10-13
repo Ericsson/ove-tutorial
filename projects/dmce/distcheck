@@ -14,7 +14,15 @@ if [[ "${OVE_OS_ID_LIKE}" == *debian* ]]; then
 		exit 1
 	fi
 
-	if [ ${EUID} -ne 0 ]; then
+	if [ "$OVE_OS" == "Ubuntu" ] && [ "$OVE_OS_VER" == "16.04" ]; then
+		_local=1
+	elif [ ${EUID} -ne 0 ]; then
+		_local=1
+	else
+		_local=0
+	fi
+
+	if [ $_local -eq 1 ]; then
 		if ! dpkg-deb -x "${d}" "${OVE_STAGE_DIR:?}"; then
 			echo "error: 'dpkg -x ${d} ${OVE_STAGE_DIR}' failed"
 			exit 1
