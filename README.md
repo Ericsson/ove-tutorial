@@ -51,7 +51,7 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
     codechecker   v6.12.1  ## HEAD (no branch)
     dmce          master   ## master...origin/master
     ove-tutorial  d78b9d9  ## master...origin/master
-    tmux          2.9      ## HEAD (no branch)
+    tmux          3.2a     ## HEAD (no branch)
     xcm           master   ## master...origin/master
 
 Checking the content of your newly created workspace will reveal the source code repos (codechecker, dmce, tmux, xcm), the OWEL (ove-tutorial) and OVE itself:
@@ -70,7 +70,7 @@ Your OVE workspace now consists of six git repositories (all from github.com) an
     codechecker   https://github.com/Ericsson/codechecker.git  https://github.com/Ericsson/codechecker.git  v6.12.1
     dmce          https://github.com/PatrikAAberg/dmce.git     git@github.com:PatrikAAberg/dmce.git         master
     ove-tutorial  https://github.com/Ericsson/ove-tutorial.git https://github.com/Ericsson/ove-tutorial.git master
-    tmux          https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             2.9
+    tmux          https://github.com/tmux/tmux.git             https://github.com/tmux/tmux.git             3.2a
     xcm           https://github.com/Ericsson/xcm.git          https://github.com/tmux/xcm.git              master
 
     $ ove list-projects
@@ -199,7 +199,7 @@ If you are on Ubuntu/Debian, you could try to build everything without 'dry-run'
     $ ove buildme tmux
     # go grab a cup of tea
     $ stage/usr/bin/tmux -V
-    tmux 2.9
+    tmux 3.2a
 
 Wait! What's up with the 'stage/usr/bin...' stuff? A short note: OVE uses a staging area for both intermediate and final build steps. You can look at it as a per-workspace mirror of how the included projects would install on your host if built without OVE. It is up to each project to decide what to do with the end results. Typically an OVE plugin (see Part IV, Plugins) would package relevant output (found in stage/...) into, well.. packages.
 
@@ -238,7 +238,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker   v6.12.1  ## HEAD (no branch)
     dmce          master   ## master...origin/master
     ove-tutorial  d78b9d9  ## master...origin/master
-    tmux          2.9      ## HEAD (no branch)
+    tmux          3.2a     ## HEAD (no branch)
     xcm           master   ## master...origin/master
 
     # update some files
@@ -250,7 +250,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker   v6.12.1  ## HEAD (no branch)  M docs/README.md
     dmce          master   ## master...origin/master  M README.md
     ove-tutorial  d78b9d9  ## master...origin/master  M README.md
-    tmux          2.9      ## HEAD (no branch)  M README
+    tmux          3.2a     ## HEAD (no branch)  M README
     xcm           master   ## master...origin/master  M README.md
 
     # open all modified files in 'vi'
@@ -270,7 +270,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker   v6.12.1  ## HEAD (no branch)  M docs/README.md
     dmce          master   ## master...origin/master [ahead 1]
     ove-tutorial  d78b9d9  ## master...origin/master M README.md
-    tmux          2.9      ## HEAD (no branch)  M README
+    tmux          3.2a     ## HEAD (no branch)  M README
     xcm           master   ## master...origin/master  M README.md
 
     # check for new commits in a specific git repo
