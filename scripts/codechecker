@@ -16,6 +16,15 @@ else
 	done
 fi
 
+restore() {
+	if [ $restore -eq 1 ]; then
+		sed -i "/^OVE_TAINT_USER_ENV/d" ${HOME}/.oveconfig
+		[ -s ${HOME}/.oveconfig ] || rm -v ${HOME}/.oveconfig
+	elif [ $restore -eq 2 ]; then
+		ove config OVE_TAINT_USER_ENV 1 > /dev/null
+	fi
+}
+
 for p in $projs; do
 	if ! [ -e $OVE_PROJECT_DIR/projects/$p/clean ]; then
 		echo "Project '$p' does not have a 'clean' file"
@@ -46,10 +55,22 @@ for p in $projs; do
 	fi
 
 	echo "CodeChecker for $p..."
+	taint_cfg=$(ove config OVE_TAINT_USER_ENV)
+	restore=0
+	if [ "x$taint_cfg" = "x" ]; then
+		restore=1
+	elif [[ $taint_cfg == *OVE_TAINT_USER_ENV*1 ]]; then
+		restore=2
+	fi
+
+	if [ $restore -ne 0 ]; then
+		trap restore EXIT
+		ove add-config ${HOME}/.oveconfig OVE_TAINT_USER_ENV 0
+	fi
 	source $OVE_BASE_DIR/codechecker/venv/bin/activate
 	$OVE_BASE_DIR/codechecker/build/CodeChecker/bin/CodeChecker \
 			check \
-			-b "bash -c \"$OVE_INIT_STRING; ove-clean $p; ove-build $p\"" \
+			-b "cd $OVE_BASE_DIR; bash -c \"source ove; ove clean $p; ove build $p\"" \
 			$CODECHECKERS_ARGS \
 			-o ./reports
 	ret=$?

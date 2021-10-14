@@ -1,6 +1,6 @@
 # CodeChecker check extra args
 CODECHECKER_ARGS    --enable-all
 # CodeChecker clang version
-CODECHECKER_CLANG   /usr/bin/clang-8
+CODECHECKER_CLANG   /usr/bin/clang
 # CodeChecker clang-tidy version
-CODECHECKER_TIDY    /usr/bin/clang-tidy-8
+CODECHECKER_TIDY    /usr/bin/clang-tidy

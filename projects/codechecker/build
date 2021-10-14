@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
+export BUILD_UI_DIST=NO
+export BUILD_LOGGER_64_BIT_ONLY=YES
 make venv package
