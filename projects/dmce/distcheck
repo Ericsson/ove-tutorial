@@ -51,6 +51,7 @@ ove dmce tmux
 ove status tmux
 ove buildme-parallel tmux
 ove fetch ag
+ove dmce
 ove revtab-check 0
 if [ -s "$HOME/.dmceconfig" ]; then
 	sed -i -e 's,dmce-probe-user,dmce-probe-syslog,g' "$HOME/.dmceconfig"
