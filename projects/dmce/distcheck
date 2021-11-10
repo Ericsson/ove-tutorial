@@ -4,6 +4,10 @@ set -e
 
 ove fetch dmce
 ove buildme dmce
+if [ -d "${OVE_ARCHIVE_DIR:?}" ]; then
+	# remove any old DMCE packages laying around
+	find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -exec rm -v {} \;
+fi
 ove dist dmce
 
 cd "${OVE_BASE_DIR:?}"/dmce
@@ -11,7 +15,7 @@ cd "${OVE_BASE_DIR:?}"/dmce
 if [[ "${OVE_OS_ID_LIKE}" == *debian* ]]; then
 	d="$(find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -type f)"
 	if [ "x${d}" = "x" ]; then
-		echo "error: deb package not found"
+		echo "error: DMCE package not found"
 		exit 1
 	fi
 
@@ -35,8 +39,8 @@ if [[ "${OVE_OS_ID_LIKE}" == *debian* ]]; then
 		if ! dpkg -i "${d}"; then
 			echo "error: 'dpkg -i ${d}' failed"
 			exit 1
-		elif ! dmce-configure-global; then
-			echo "error: 'dmce-configure-global' failed"
+		elif ! dmce-setup; then
+			echo "error: 'dmce-setup' failed"
 			exit 1
 		fi
 	fi
