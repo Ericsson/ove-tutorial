@@ -52,6 +52,7 @@ dmce:
     base
     clang_tools
   needs:
+    dpkg
     python3
     wget
   path:

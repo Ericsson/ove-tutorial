@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+if [ -d "${OVE_ARCHIVE_DIR:?}" ]; then
+	# remove any old DMCE packages laying around
+	find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -exec rm {} \;
+fi
+
+if ! ove-dist dmce; then
+	exit 1
+fi
+
+d="$(find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -type f)"
+if [ "x${d}" = "x" ]; then
+	echo "error: DMCE package not found"
+	exit 1
+fi
+
+if ! dpkg-deb -x "$d" "$OVE_STAGE_DIR"; then
+	echo "error: 'dpkg-deb -x $d $OVE_STAGE_DIR' failed"
+	exit 1
+fi
+
+if ! command -v dmce-setup > /dev/null; then
+	echo "error: 'dmce-setup' not found"
+	exit 1
+fi
+
+if ! dmce-setup "$OVE_BASE_DIR"; then
+	echo "error: 'dmce-setup $OVE_BASE_DIR' failed"
+	exit 1
+fi
