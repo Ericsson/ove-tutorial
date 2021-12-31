@@ -308,12 +308,12 @@ It is pretty easy to extend OVE with extra commands. In this section we will sho
 When you do '**source ove**', OVE will search for executable files at the following three directories:
 
     $OVE_BASE_DIR/scripts/
-    $OVE_PROJECT_DIR/scripts/
+    $OVE_OWEL_DIR/scripts/
     <all repositories>/.ove/scripts/
 
 All executable files in these three directories will be added to OVE command list. Here we added an entry point for codechecker in the top repo (ove-tutorial):
 
-    $ ls $OVE_PROJECT_DIR/scripts
+    $ ls $OVE_OWEL_DIR/scripts
     codechecker  codechecker.complete  codechecker.help  dmce  dmce.complete  dmce.help
     $ ove help codechecker
     codechecker            [PROJECT]                  run codechecker for all/specified project(s)

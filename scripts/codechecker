@@ -26,12 +26,12 @@ restore() {
 }
 
 for p in $projs; do
-	if ! [ -e $OVE_PROJECT_DIR/projects/$p/clean ]; then
+	if ! [ -e $OVE_OWEL_DIR/projects/$p/clean ]; then
 		echo "Project '$p' does not have a 'clean' file"
 		continue
 	fi
 
-	if ! [ -e $OVE_PROJECT_DIR/projects/$p/build ]; then
+	if ! [ -e $OVE_OWEL_DIR/projects/$p/build ]; then
 		echo "Project '$p' does not have a 'build' file"
 		continue
 	fi
