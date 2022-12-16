@@ -134,3 +134,7 @@ ag:
     zlib1g-dev
   path:
     ag
+
+foo:
+  path:
+    $OVE_BASE_DIR
