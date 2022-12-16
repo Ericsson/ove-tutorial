@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
 
 set -e
-echo foobar
+
+if [ -e /etc/os-release ]; then
+	cut -d= -f2- /etc/os-release | tr -d '"' | xargs
+else
+	echo foobar
+fi
