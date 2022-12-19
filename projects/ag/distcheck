@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 
 set -e
-ove fetch ag
-ove buildme-parallel ag
 ${OVE_STAGE_DIR}/usr/bin/ag -V
