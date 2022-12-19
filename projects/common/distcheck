@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-ove fetch $OVE_ACTIVE_PROJECT_NAME
 ove buildme-parallel $OVE_ACTIVE_PROJECT_NAME
