@@ -116,6 +116,8 @@ ag:
     automake
     make
     python3
+  needs_arch:
+    pcre
   needs_alpine:
     autoconf
     pcre-dev
