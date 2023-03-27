@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-make -C libevent-${libevent_version}-stable install
+
+make install

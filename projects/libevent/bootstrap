@@ -1,8 +1,3 @@
 #!/usr/bin/env bash
 
-if ! [ -d libevent-${libevent_version}-stable ]; then
-	curl -sSL https://github.com/libevent/libevent/releases/download/release-${libevent_version}-stable/libevent-${libevent_version}-stable.tar.gz | tar xz
-fi
-
-cd libevent-${libevent_version}-stable
 ./autogen.sh

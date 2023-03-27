@@ -70,8 +70,6 @@ libevent:
     make
   path:
     libevent
-  version:
-    2.1.10
 
 ncurses:
   deps:
