@@ -1,0 +1,6 @@
+# configuration file for "ove dmce ..."
+#
+# name:command:args
+default:trace:-C 1 trace-mc
+libevent:trace:-C 1 -c ARC4 -e bench_http.c,regress_listener.c trace-mc
+ncurses:trace:-C 1 -c MakeColorPair,EXTEND_NUM,CMP_TRY,NCURSES_EXPORT,CURRENT_SCREEN,WINSIZE -e c++/cursesw.cc,c++/cursesf.cc trace-mc
