@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
+set -e
+
+if [ -s "config.status" ]; then
+	exit 0
+fi
+
 ./autogen.sh

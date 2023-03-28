@@ -1,5 +1,1 @@
 #!/usr/bin/env bash
-
-if ! [ -d ncurses-${ncurses_version} ]; then
-	curl -sSL ftp://ftp.gnu.org/gnu/ncurses/ncurses-${ncurses_version}.tar.gz | tar xz
-fi

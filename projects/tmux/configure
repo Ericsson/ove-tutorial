@@ -1,2 +1,13 @@
 #!/usr/bin/env bash
-CFLAGS="$OVE_CPPFLAGS $OVE_CPPFLAGS/ncurses" LDFLAGS="$OVE_LDFLAGS" ./configure --prefix=$OVE_STAGE_DIR/usr
+
+set -e
+
+if [ -s config.status ]; then
+	./config.status
+else
+	CFLAGS="$OVE_CPPFLAGS \
+		$OVE_CPPFLAGS/ncurses" \
+		LDFLAGS="$OVE_LDFLAGS" \
+		./configure \
+		--prefix=$OVE_STAGE_DIR/usr
+fi

@@ -4,5 +4,6 @@ ag           https://github.com/ggreer/the_silver_searcher.git  https://github.c
 codechecker  https://github.com/Ericsson/codechecker.git        https://github.com/Ericsson/codechecker.git        v6.12.1
 dmce         https://github.com/PatrikAAberg/dmce.git           git@github.com:PatrikAAberg/dmce.git               master
 libevent     https://github.com/libevent/libevent               https://github.com/libevent/libevent               release-2.1.10-stable
+ncurses      https://github.com/mirror/ncurses.git              https://github.com/mirror/ncurses.git              v6.1
 tmux         https://github.com/tmux/tmux.git                   https://github.com/tmux/tmux.git                   3.2a
 xcm          https://github.com/Ericsson/xcm.git                https://github.com/Ericsson/xcm.git                master

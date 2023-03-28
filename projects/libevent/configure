@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 
-CFLAGS="$OVE_CPPFLAGS" \
-	LDFLAGS="$OVE_LDFLAGS" \
-	./configure \
-		--disable-libevent-regress \
-		--disable-samples \
-		--prefix="$OVE_STAGE_DIR"/usr
+set -e
+
+if [ -s config.status ]; then
+	./config.status
+else
+	CFLAGS="$OVE_CPPFLAGS" \
+		LDFLAGS="$OVE_LDFLAGS" \
+		./configure \
+			--enable-shared \
+			--disable-libevent-regress \
+			--disable-samples \
+			--prefix="$OVE_STAGE_DIR"/usr
+fi

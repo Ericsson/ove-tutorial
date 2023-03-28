@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [ -e autogen.sh ]; then
 	./autogen.sh
 fi

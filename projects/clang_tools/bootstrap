@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [ "$OVE_OS" == "Ubuntu" ] && \
 	[ "$OVE_OS_VER" == "16.04" ] && \
 	[ -s /usr/bin/clang-check-8 ] && \

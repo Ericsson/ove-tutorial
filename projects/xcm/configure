@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
 
-./configure --disable-tls --disable-xcm-tool --disable-lttng --prefix=$OVE_STAGE_DIR/usr
+set -e
+
+if [ -s "config.status" ]; then
+	./config.status
+else
+	./configure \
+		--disable-tls \
+		--disable-xcm-tool \
+		--disable-cares \
+		--disable-lttng \
+		--prefix=$OVE_STAGE_DIR/usr
+fi

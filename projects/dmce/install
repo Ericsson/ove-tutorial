@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [ -d "${OVE_ARCHIVE_DIR:?}" ]; then
 	# remove any old DMCE packages laying around
 	find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -exec rm {} \;

@@ -79,8 +79,6 @@ ncurses:
     make
   path:
     ncurses
-  version:
-    6.1
 
 tmux:
   deps:

@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
-cd ncurses-${ncurses_version}
+
+set -e
+
 make install.libs

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if ! command -v cram > /dev/null; then
 	if command -v cram3 > /dev/null; then
 		(mkdir -p ${OVE_STAGE_DIR:?}/${OVE_PREFIX}/bin; cd ${OVE_STAGE_DIR:?}/${OVE_PREFIX}/bin; ln -s $(command -v cram3) cram)
