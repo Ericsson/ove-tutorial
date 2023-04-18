@@ -4,7 +4,7 @@ set -e
 
 if ! command -v cram > /dev/null; then
 	if command -v cram3 > /dev/null; then
-		(mkdir -p ${OVE_STAGE_DIR:?}/${OVE_PREFIX}/bin; cd ${OVE_STAGE_DIR:?}/${OVE_PREFIX}/bin; ln -s $(command -v cram3) cram)
+		(mkdir -p "${OVE_STAGE_DIR:?}"/"${OVE_PREFIX}"/bin; cd "${OVE_STAGE_DIR:?}"/"${OVE_PREFIX}"/bin; ln -s "$(command -v cram3)" cram)
 	else
 		echo "error: cram not found, try:"
 		echo "$ pip3 install cram"
@@ -12,9 +12,9 @@ if ! command -v cram > /dev/null; then
 	fi
 fi
 
-if ! \grep -q ^test: Makefile; then
+if ! grep -q ^test: Makefile; then
 	echo "error: could not find the test target"
 	exit 1
 fi
 
-\make test
+timeout 60 make test

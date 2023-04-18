@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 set -e
-${OVE_STAGE_DIR}/usr/bin/ag -V
+"${OVE_STAGE_DIR:?}"/usr/bin/ag -V
