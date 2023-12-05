@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
 set -e
-if [[ "${OVE_OS_ID_LIKE}" == *debian* ]]; then
-	./build-deb
-	mv dmce-*.deb "${OVE_ARCHIVE_DIR}"
-fi
+p=$(./build-pkg)
+mv "$p" "${OVE_ARCHIVE_DIR}"
