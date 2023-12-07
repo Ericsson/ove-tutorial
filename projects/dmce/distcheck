@@ -2,6 +2,8 @@
 
 set -e
 
+export OVE_LOCAL_ECHO=1
+
 if [ -d "${OVE_ARCHIVE_DIR:?}" ]; then
 	# remove any old DMCE packages laying around
 	find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -exec rm -v {} \;
@@ -47,15 +49,19 @@ elif ! ./dmce-configure-local; then
 	exit 1
 fi
 
+# run gcc/gplusplus-torture and DMCE unittests
 ove test dmce
+
+# run DMCE on tmux and make sure tmux builds
 ove fetch tmux
-ove dmce tmux
+ove dmce launch --cache -v -- tmux
 ove status tmux
 ove buildme-parallel tmux
+
+# run coverage-history on ag
 ove fetch ag
-ove dmce
 ove revtab-check 0
 if [ -s "$HOME/.dmceconfig" ]; then
 	sed -i -e 's,dmce-probe-user,dmce-probe-syslog,g' "$HOME/.dmceconfig"
 fi
-ove dmce-cov ag ag 3 2.2.0 2.1.0 2.0.0 1.0.3 1.0.2 1.0.1 1.0.0
+ove dmce-coverage-history ag ag 3 2.2.0 2.1.0 2.0.0 1.0.3 1.0.2 1.0.1 1.0.0
