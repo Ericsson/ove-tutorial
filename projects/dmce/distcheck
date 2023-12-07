@@ -4,48 +4,8 @@ set -e
 
 export OVE_LOCAL_ECHO=1
 
-if [ -d "${OVE_ARCHIVE_DIR:?}" ]; then
-	# remove any old DMCE packages laying around
-	find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -exec rm -v {} \;
-fi
-ove dist dmce
-
-cd "${OVE_BASE_DIR:?}"/dmce
-
-if [[ "${OVE_OS_ID_LIKE}" == *debian* ]]; then
-	d="$(find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -type f)"
-	if [ "x${d}" = "x" ]; then
-		echo "error: DMCE package not found"
-		exit 1
-	fi
-
-	if [ "$OVE_OS" == "Ubuntu" ] && [ "$OVE_OS_VER" == "16.04" ]; then
-		_local=1
-	elif [ ${EUID} -ne 0 ]; then
-		_local=1
-	else
-		_local=0
-	fi
-
-	if [ $_local -eq 1 ]; then
-		if ! dpkg-deb -x "${d}" "${OVE_STAGE_DIR:?}"; then
-			echo "error: 'dpkg -x ${d} ${OVE_STAGE_DIR}' failed"
-			exit 1
-		elif ! dmce-configure-local; then
-			echo "error: 'dmce-configure-local' failed"
-			exit 1
-		fi
-	else
-		if ! dpkg -i "${d}"; then
-			echo "error: 'dpkg -i ${d}' failed"
-			exit 1
-		elif ! dmce-setup; then
-			echo "error: 'dmce-setup' failed"
-			exit 1
-		fi
-	fi
-elif ! ./dmce-configure-local; then
-	echo "error: 'dmce-configure-local' failed"
+if ! command -v dmce; then
+	echo "error: command 'dmce' missing"
 	exit 1
 fi
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 set -e
-p=$(./build-pkg)
+p=$(./build-pkg xz)
 mv "$p" "${OVE_ARCHIVE_DIR}"

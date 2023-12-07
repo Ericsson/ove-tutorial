@@ -4,30 +4,23 @@ set -e
 
 if [ -d "${OVE_ARCHIVE_DIR:?}" ]; then
 	# remove any old DMCE packages laying around
-	find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -exec rm {} \;
+	find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*' -exec rm {} \;
 fi
 
 if ! ove-dist dmce; then
 	exit 1
-fi
-
-d="$(find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.deb' -type f)"
-if [ "x${d}" = "x" ]; then
+elif ! d="$(find "${OVE_ARCHIVE_DIR:?}" -mindepth 1 -mindepth 1 -name 'dmce-*.xz' -type f)"; then
+	exit 1
+elif [ "x${d}" = "x" ]; then
 	echo "error: DMCE package not found"
 	exit 1
-fi
-
-if ! dpkg-deb -x "$d" "$OVE_STAGE_DIR"; then
-	echo "error: 'dpkg-deb -x $d $OVE_STAGE_DIR' failed"
+elif ! tar -C "$OVE_STAGE_DIR" -xf "${d}"; then
+	echo "error: unpack '$d' failed"
 	exit 1
-fi
-
-if ! command -v dmce-setup > /dev/null; then
+elif ! command -v dmce-setup > /dev/null; then
 	echo "error: 'dmce-setup' not found"
 	exit 1
-fi
-
-if ! dmce-setup "$OVE_BASE_DIR"; then
+elif ! dmce-setup "$OVE_BASE_DIR"; then
 	echo "error: 'dmce-setup $OVE_BASE_DIR' failed"
 	exit 1
 fi
