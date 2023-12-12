@@ -12,6 +12,10 @@ base:
   needs_arch:
     base-devel
     pkgconfig
+  needs_fedora:
+    g++
+    gcc
+    pkgconfig
 
 codechecker:
   deps:
