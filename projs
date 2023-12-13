@@ -51,12 +51,20 @@ clang_tools:
   needs_void:
     clang-tools-extra
 
+xz:
+  needs_alpine:
+    xz-dev
+  needs_fedora:
+    xz-devel
+  needs_debian:
+    xz-utils
+
 dmce:
   deps:
     base
     clang_tools
+    xz
   needs:
-    dpkg
     fakeroot
     python3
     wget
@@ -64,6 +72,7 @@ dmce:
     py3-numpy
     py3-colorama
   needs_debian:
+    dpkg
     python3-numpy
     python3-colorama
   needs_fedora:
@@ -119,6 +128,7 @@ xcm:
 ag:
   deps:
     base
+    xz
   needs:
     automake
     make
@@ -129,12 +139,10 @@ ag:
     autoconf
     pcre-dev
     py3-pip
-    xz-dev
     zlib-dev
   needs_fedora:
     gcc
     pcre-devel
-    xz-devel
     zlib-devel
   needs_debian:
     liblzma-dev
