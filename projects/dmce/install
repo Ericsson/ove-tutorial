@@ -23,4 +23,10 @@ elif ! command -v dmce-setup > /dev/null; then
 elif ! dmce-setup "$OVE_BASE_DIR"; then
 	echo "error: 'dmce-setup $OVE_BASE_DIR' failed"
 	exit 1
+elif ! dmce_work_dir=$(ove dmce-get-work-dir); then
+	echo "error: could not get DMCE work dir"
+	exit 1
+elif ! sed -i -e "s,${dmce_work_dir},/var${dmce_work_dir},g" "$OVE_BASE_DIR"/.dmceconfig; then
+	echo "error: could not update work dir path"
+	exit 1
 fi
