@@ -6,6 +6,7 @@ base:
   needs_alpine:
     build-base
     pkgconf
+    shadow-login
   needs_void:
     base-devel
     pkg-config
