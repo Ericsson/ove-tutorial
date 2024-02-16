@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+if command -v incus > /dev/null; then
+	_cmd="incus"
+elif command -v lxc > /dev/null; then
+	_cmd="lxc"
+else
+	echo "error: command incus/lxc not found" 1>&2
+	exit 1
+fi
+
 export OVE_DISTROCHECK_STEPS="user ssh"
 echo "set -x;date;whoami;cat /etc/os-release;hostname;ip addr" > "${OVE_TMP:?}/a"
 if [ -n "${TMUX}" ]; then
@@ -7,10 +16,10 @@ if [ -n "${TMUX}" ]; then
 fi
 ove-distrocheck${__s} \
 	"${OVE_TMP}/a" \
-	alpine/3.18$ \
-	debian/trixie$ \
-	ubuntu/22.04$
+	alpine/edge$ \
+	ubuntu/24.04$
 unset __s
+
 if [ -n "${TMUX}" ]; then
-	watch -d -x -- bash -c "lxc list|grep ${OVE_USER:?}-"
+	watch -d -t -x -- bash -c "${_cmd:?} list --format compact"
 fi
