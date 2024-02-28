@@ -1,25 +1,174 @@
 #!/usr/bin/env bash
 
-if command -v incus > /dev/null; then
-	_cmd="incus"
-elif command -v lxc > /dev/null; then
-	_cmd="lxc"
+function init {
+	if command -v incus > /dev/null; then
+		_cmd="incus"
+	elif command -v lxc > /dev/null; then
+		_cmd="lxc"
+	else
+		echo "error: command incus/lxc not found" 1>&2
+		exit 1
+	fi
+
+	if [ -n "${TMUX}" ]; then
+		__s="-parallel"
+	fi
+
+	if [ -n "${TMUX}" ]; then
+		tmux split-window -- watch -d -t -x -- bash -c "${_cmd:?} list --format compact"
+	fi
+
+	export OVE_DISTROCHECK_CONTAINER_PREFIX=demo
+	export OVE_LOCAL_ECHO=1
+	to=5
+}
+
+function a {
+	cat > "${OVE_TMP:?}"/a << EOF
+#!/usr/bin/env sh
+echo hi
+c_list="date hostname whoami"
+for c in \${c_list}; do
+	if command -v "\$c" > /dev/null; then
+		\$c
+	fi
+done
+if [ -e /etc/os-release ]; then
+	cat /etc/os-release
+fi
+EOF
+	cat -n "$OVE_TMP"/a
+
+	ove-echo cyan "test ${FUNCNAME[0]}: run the above script within a few containers"
+	read -r -p "" -t "${to:?}"
+
+	export OVE_DISTROCHECK_STEPS=""
+	ove-distrocheck${__s} \
+		"${OVE_TMP}/a" \
+		alpine/edge$ \
+		openwrt/snapshot$ \
+		debian/12$ \
+		ubuntu/24.04$
+}
+
+function b {
+	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within a Ubuntu 24.04 container, run the job as user, delete when done"
+	read -r -p "" -t "${to:?}"
+
+	export OVE_DISTROCHECK_STEPS="user"
+	ove-distrocheck${__s} \
+		foo \
+		ubuntu/24.04$
+}
+
+function c {
+	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'ag' within a few distros"
+	read -r -p "" -t "${to:?}"
+
+	export OVE_DISTROCHECK_STEPS=""
+	ove-distrocheck${__s} \
+		ag \
+		alpine/edge$ \
+		centos/9-Stream$ \
+		ubuntu/22.04$
+}
+
+function d {
+	cat > "${OVE_TMP:?}"/a << EOF
+#!/usr/bin/env sh
+set -x
+date
+whoami
+hostname
+ip addr
+EOF
+	cat -n "$OVE_TMP"/a
+
+	ove-echo cyan "test ${FUNCNAME[0]}: run the above script within a Ubuntu 22.04 container, enable debug prints, leave the container running"
+	read -r -p "" -t "${to:?}"
+
+	export OVE_DISTROCHECK_STEPS="running verbose"
+	ove-distrocheck${__s} \
+		"$OVE_TMP"/a \
+		ubuntu/22.04$
+}
+
+function e {
+	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within a few containers, run the job as user, using worktree, delete container when done"
+	read -r -p "" -t "${to:?}"
+
+	export OVE_DISTROCHECK_STEPS="user worktree"
+	ove-distrocheck${__s} \
+		foo \
+		alpine/edge$ \
+		debian/12$ \
+		ubuntu/22.04$ \
+		ubuntu/24.04$
+}
+
+function X {
+	ove-echo cyan "test ${FUNCNAME[0]}: setup a Xfce desktop within an Alpine Edge container"
+	read -r -p "" -t "${to:?}"
+
+	export OVE_DISTROCHECK_STEPS="X running ssh_config ssh user"
+	export OVE_DISTROCHECK_XPRA_CLIENT_ARGS="attach"
+	export OVE_DISTROCHECK_XPRA_DE_CMD="xfce4-session"
+	export OVE_DISTROCHECK_XPRA_DE="xfce"
+	ove-distrocheck${__s} \
+		true \
+		alpine/edge$
+}
+
+function Y {
+	ove-echo cyan "test ${FUNCNAME[0]}: setup a MATE desktop within an Alpine Edge container"
+	read -r -p "" -t "${to:?}"
+
+	export OVE_DISTROCHECK_STEPS="X running ssh_config ssh user verbose"
+	export OVE_DISTROCHECK_XPRA_CLIENT_ARGS="attach"
+	export OVE_DISTROCHECK_XPRA_DE_CMD="mate-session"
+	export OVE_DISTROCHECK_XPRA_DE="mate"
+	ove-distrocheck${__s} \
+		true \
+		alpine/edge$
+}
+
+function cleanup {
+	local c_list
+
+	ove-echo cyan "press ENTER to cleanup"
+	read -r -p ""
+	while true; do
+		c_list=$(${_cmd:?} list --format csv | cut -d, -f1 | grep ^${OVE_DISTROCHECK_CONTAINER_PREFIX}-)
+		if [ "$c_list" = "" ]; then
+			break
+		fi
+		eval ${_cmd:?} delete -f "${c_list}" 2> /dev/null
+		echo -n .
+	done
+	echo
+
+	pkill -f ove_init
+	pkill -f "${_cmd:?} list"
+}
+
+init
+if [ $# -eq 0 ]; then
+	t_list=$(compgen -A function | \
+		while read -r line; do
+			if [ ${#line} -ne 1 ]; then
+				continue
+			fi
+			echo "$line"
+		done | sort)
 else
-	echo "error: command incus/lxc not found" 1>&2
-	exit 1
+	t_list="${*}"
 fi
 
-export OVE_DISTROCHECK_STEPS="user ssh"
-echo "set -x;date;whoami;cat /etc/os-release;hostname;ip addr" > "${OVE_TMP:?}/a"
-if [ -n "${TMUX}" ]; then
-	__s="-parallel"
-fi
-ove-distrocheck${__s} \
-	"${OVE_TMP}/a" \
-	alpine/edge$ \
-	ubuntu/24.04$
-unset __s
+for t in ${t_list}; do
+	if [ "$(type -t "$t")" != "function" ]; then
+		continue
+	fi
+	$t
+done
 
-if [ -n "${TMUX}" ]; then
-	watch -d -t -x -- bash -c "${_cmd:?} list --format compact"
-fi
+cleanup
