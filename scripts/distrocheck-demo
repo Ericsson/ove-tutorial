@@ -15,7 +15,7 @@ function init {
 	fi
 
 	if [ -n "${TMUX}" ]; then
-		tmux split-window -- watch -d -t -x -- bash -c "${_cmd:?} list --format compact"
+		tmux split-window -- watch -t -x -- bash -c "${_cmd:?} list --format compact -c ns46tSd"
 	fi
 
 	export OVE_DISTROCHECK_CONTAINER_PREFIX=demo
