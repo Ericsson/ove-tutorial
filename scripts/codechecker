@@ -1,83 +1,57 @@
 #!/usr/bin/env bash
 
+# sanity checks
+if [ ! -s "$OVE_BASE_DIR"/codechecker/venv/bin/activate ]; then
+	echo "error: codechecker: virtual env not found" 1>&2
+	exit 1
+elif [ ! -s "$OVE_BASE_DIR"/codechecker/build/CodeChecker/bin/CodeChecker ]; then
+	echo "error: codechecker: binary not built" 1>&2
+	exit 1
+fi
+
+# args
 if [ $# -eq 0 ]; then
-	projs=$(echo $OVE_PROJECT_LIST | xargs -n1 | grep -v codechecker)
+	# shellcheck disable=SC2086
+	projs=$(printf "%s\n" ${OVE_PROJECT_LIST/codechecker})
 else
 	while true; do
-		[ "$*" == "" ] && break
+		if [ "$*" = "" ]; then
+		       break
+		fi
 		re=\\b$1\\b
 		if [[ "$OVE_PROJECT_LIST" =~ $re ]]; then
 			projs+="$1 "
 		else
-			echo "error: '$1' unknown project"
+			echo "error: '$1' unknown project" 1>&2
 		fi
 
 		shift
 	done
 fi
 
-restore() {
-	if [ $restore -eq 1 ]; then
-		sed -i "/^OVE_TAINT_USER_ENV/d" ${HOME}/.oveconfig
-		[ -s ${HOME}/.oveconfig ] || rm -v ${HOME}/.oveconfig
-	elif [ $restore -eq 2 ]; then
-		ove config OVE_TAINT_USER_ENV 1 > /dev/null
-	fi
-}
-
+# run CodeChecker
 for p in $projs; do
-	if ! [ -e $OVE_OWEL_DIR/projects/$p/clean ]; then
-		echo "Project '$p' does not have a 'clean' file"
+	if ! [ -e "$OVE_OWEL_DIR"/projects/"$p"/clean ]; then
+		echo "codechecker: OVE project '$p' does not have a 'clean' file"
 		continue
 	fi
 
-	if ! [ -e $OVE_OWEL_DIR/projects/$p/build ]; then
-		echo "Project '$p' does not have a 'build' file"
+	if ! [ -e "$OVE_OWEL_DIR"/projects/"$p"/build ]; then
+		echo "codechecker: OVE project '$p' does not have a 'build' file"
 		continue
 	fi
 
-	if [ "$CODECHECKER_CLANG" != "" ]; then
-		if ! command -V $CODECHECKER_CLANG &> /dev/null; then
-			echo "warning: '$CODECHECKER_CLANG' not found. Check ove config CODECHECKER_CLANG"
-	else
-		sed -i "s|^      \"clangsa\".*|      \"clangsa\": \"$CODECHECKER_CLANG\",|g" \
-			$OVE_BASE_DIR/codechecker/build/CodeChecker/config/package_layout.json
-		fi
-	fi
-
-	if [ "$CODECHECKER_TIDY" != "" ]; then
-		if ! command -V $CODECHECKER_TIDY &> /dev/null; then
-			echo "warning: '$CODECHECKER_TIDY' not found. Check ove config CODECHECKER_TIDY"
-		else
-			sed -i "s|^      \"clang-tidy\".*|      \"clang-tidy\": \"$CODECHECKER_TIDY\"|g" \
-				$OVE_BASE_DIR/codechecker/build/CodeChecker/config/package_layout.json
-		fi
-	fi
-
-	echo "CodeChecker for $p..."
-	taint_cfg=$(ove config OVE_TAINT_USER_ENV)
-	restore=0
-	if [ "x$taint_cfg" = "x" ]; then
-		restore=1
-	elif [[ $taint_cfg == *OVE_TAINT_USER_ENV*1 ]]; then
-		restore=2
-	fi
-
-	if [ $restore -ne 0 ]; then
-		trap restore EXIT
-		ove add-config ${HOME}/.oveconfig OVE_TAINT_USER_ENV 0
-	fi
-	source $OVE_BASE_DIR/codechecker/venv/bin/activate
-	$OVE_BASE_DIR/codechecker/build/CodeChecker/bin/CodeChecker \
+	echo "codechecker: OVE project '$p'"
+	# shellcheck disable=SC1091
+	source "$OVE_BASE_DIR"/codechecker/venv/bin/activate
+	# shellcheck disable=SC2086
+	"$OVE_BASE_DIR"/codechecker/build/CodeChecker/bin/CodeChecker \
 			check \
 			-b "cd $OVE_BASE_DIR; bash -c \"source ove; ove clean $p; ove build $p\"" \
-			$CODECHECKERS_ARGS \
-			-o ./reports
+			$CODECHECKER_ARGS \
+			-o "$OVE_BASE_DIR"/codechecker-reports
 	ret=$?
-
-	if [ $ret -eq 0 ]; then
-		echo "CodeChecker: $p OK"
-	else
-		echo "CodeChecker: $p NOK $ret"
+	if [ $ret -ne 0 ]; then
+		echo "error: codechecker: OVE project '$p' NOK $ret" 1>&2
 	fi
 done

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+dst="${OVE_STAGE_DIR:?}${OVE_PREFIX:?}/lib"
+if ! mkdir -p -v "${dst:?}"; then
+	exit 1
+elif ! f=$(find "${OVE_BASE_DIR:?}/${OVE_ACTIVE_PROJECT_NAME:?}/build/" -name 'ldlogger.so'); then
+	exit 1
+elif ! cp \
+	-a \
+	-v \
+	"${f:?}" \
+	"${dst:?}/"; then
+	exit 1
+fi

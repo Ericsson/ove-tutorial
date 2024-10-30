@@ -37,8 +37,6 @@ codechecker:
     codechecker
   config:
     CODECHECKER_ARGS
-    CODECHECKER_CLANG
-    CODECHECKER_TIDY
   scripts:
     codechecker
     codechecker.complete

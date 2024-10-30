@@ -1,7 +1,7 @@
 # name       fetch URL                                          push URL                                           rev
 .ove         https://github.com/Ericsson/ove.git                https://github.com/Ericsson/ove.git                master
 ag           https://github.com/ggreer/the_silver_searcher.git  https://github.com/ggreer/the_silver_searcher.git  master
-codechecker  https://github.com/Ericsson/codechecker.git        https://github.com/Ericsson/codechecker.git        v6.12.1
+codechecker  https://github.com/Ericsson/codechecker.git        https://github.com/Ericsson/codechecker.git        v6.24.4
 dmce         https://github.com/PatrikAAberg/dmce.git           git@github.com:PatrikAAberg/dmce.git               master
 libevent     https://github.com/libevent/libevent               https://github.com/libevent/libevent               release-2.1.10-stable
 ncurses      https://github.com/mirror/ncurses.git              https://github.com/mirror/ncurses.git              v6.1

@@ -1,0 +1,20 @@
+diff --git a/analyzer/tools/build-logger/Makefile b/analyzer/tools/build-logger/Makefile
+index 21742018..ec0aac6e 100644
+--- a/analyzer/tools/build-logger/Makefile
++++ b/analyzer/tools/build-logger/Makefile
+@@ -99,13 +99,13 @@ pack64bit_only: 64bit_only packbin64
+ # pack binary
+ packbin:
+ 	mkdir -p $(BIN_DIR)
+-	cp ldlogger $(BIN_DIR)
++	cp ldlogger $(BIN_DIR) || true
+ 	rm -f ldlogger
+ 
+ # pack binary
+ packbin64:
+ 	mkdir -p $(BIN_DIR)
+-	cp ldlogger64 $(BIN_DIR)/ldlogger
++	cp ldlogger64 $(BIN_DIR)/ldlogger || true
+ 	rm -f ldlogger64
+ 
+ # Build only 32 bit lib
