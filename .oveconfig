@@ -4,3 +4,5 @@ CODECHECKER_ARGS    --enable-all
 CODECHECKER_CLANG   /usr/bin/clang
 # CodeChecker clang-tidy version
 CODECHECKER_TIDY    /usr/bin/clang-tidy
+# clone repos automatically
+OVE_AUTO_CLONE      1
