@@ -35,6 +35,14 @@ codechecker:
     thrift-compiler
   path:
     codechecker
+  config:
+    CODECHECKER_ARGS
+    CODECHECKER_CLANG
+    CODECHECKER_TIDY
+  scripts:
+    codechecker
+    codechecker.complete
+    codechecker.help
 
 clang_tools:
   needs_alpine:
