@@ -1,5 +1,7 @@
 ---
 base:
+  needs:
+    ccache
   needs_debian:
     build-essential
     pkg-config
@@ -162,3 +164,29 @@ ag:
 foo:
   path:
     $OVE_BASE_DIR
+
+ninja:
+  needs_alpine:
+    ninja-is-really-ninja
+  needs_arch:
+    ninja
+  needs_debian:
+    ninja-build
+  needs_fedora:
+    ninja-build
+  needs_void:
+    ninja
+
+lpp:
+  deps:
+    base
+    ninja
+  needs:
+    cmake
+  needs_debian:
+    libssl-dev
+  needs_fedora:
+    libatomic
+    openssl-devel
+  path:
+    lpp

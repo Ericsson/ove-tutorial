@@ -1,9 +1,10 @@
-# name       fetch URL                                          push URL                                           rev
-.ove         https://github.com/Ericsson/ove.git                https://github.com/Ericsson/ove.git                master
-ag           https://github.com/ggreer/the_silver_searcher.git  https://github.com/ggreer/the_silver_searcher.git  master
-codechecker  https://github.com/Ericsson/codechecker.git        https://github.com/Ericsson/codechecker.git        v6.24.4
-dmce         https://github.com/PatrikAAberg/dmce.git           git@github.com:PatrikAAberg/dmce.git               master
-libevent     https://github.com/libevent/libevent               https://github.com/libevent/libevent               release-2.1.10-stable
-ncurses      https://github.com/mirror/ncurses.git              https://github.com/mirror/ncurses.git              v6.1
-tmux         https://github.com/tmux/tmux.git                   https://github.com/tmux/tmux.git                   3.5a
-xcm          https://github.com/Ericsson/xcm.git                https://github.com/Ericsson/xcm.git                master
+# name      fetch URL                                             push URL                                              rev
+.ove        https://github.com/Ericsson/ove.git                   https://github.com/Ericsson/ove.git                   master
+ag          https://github.com/ggreer/the_silver_searcher.git     https://github.com/ggreer/the_silver_searcher.git     master
+codechecker https://github.com/Ericsson/codechecker.git           https://github.com/Ericsson/codechecker.git           v6.24.4
+dmce        https://github.com/PatrikAAberg/dmce.git              git@github.com:PatrikAAberg/dmce.git                  master
+libevent    https://github.com/libevent/libevent                  https://github.com/libevent/libevent                  release-2.1.10-stable
+lpp         https://github.com/Ericsson/SUPL-3GPP-LPP-client.git  https://github.com/Ericsson/SUPL-3GPP-LPP-client.git  main
+ncurses     https://github.com/mirror/ncurses.git                 https://github.com/mirror/ncurses.git                 v6.1
+tmux        https://github.com/tmux/tmux.git                      https://github.com/tmux/tmux.git                      3.5a
+xcm         https://github.com/Ericsson/xcm.git                   https://github.com/Ericsson/xcm.git                   master
