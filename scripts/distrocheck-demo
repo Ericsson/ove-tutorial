@@ -22,8 +22,30 @@ function init {
 		tmux split-window -- watch -t -x -- bash -c "${_cmd:?} list --format compact -c ns46tSd | grep demo-"
 	fi
 
-	export OVE_DISTROCHECK_CONTAINER_PREFIX=demo
+	export OVE_DISTROCHECK_CONTAINER_NAME_PREFIX=demo
+	export OVE_DISTROCHECK_CONTAINER_NAME_RANDOM=1
 	export OVE_LOCAL_ECHO=1
+}
+
+function run {
+	if [ $# -eq 0 ]; then
+		t_list=$(compgen -A function | \
+			while read -r line; do
+				if [ ${#line} -ne 1 ]; then
+					continue
+				fi
+				echo "$line"
+			done | sort)
+		else
+			t_list="${*}"
+	fi
+
+	for t in ${t_list}; do
+		if [ "$(type -t "$t")" != "function" ]; then
+			continue
+		fi
+		$t
+	done
 }
 
 function a {
@@ -46,7 +68,7 @@ EOF
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS=""
-	ove-distrocheck${__s} \
+	ove-distrocheck"${__s}" \
 		"${OVE_TMP}/a" \
 		alpine/${alpine_release:?}$ \
 		openwrt/snapshot$ \
@@ -59,7 +81,7 @@ function b {
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="user"
-	ove-distrocheck${__s} \
+	ove-distrocheck"${__s}" \
 		foo \
 		ubuntu/${ubuntu_release:?}$
 }
@@ -69,7 +91,7 @@ function c {
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS=""
-	ove-distrocheck${__s} \
+	ove-distrocheck"${__s}" \
 		ag \
 		alpine/${alpine_release:?}$ \
 		centos/9-Stream$ \
@@ -91,7 +113,7 @@ EOF
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="running verbose"
-	ove-distrocheck${__s} \
+	ove-distrocheck"${__s}" \
 		"$OVE_TMP"/a \
 		ubuntu/${ubuntu_release:?}$
 }
@@ -101,7 +123,7 @@ function e {
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="user worktree"
-	ove-distrocheck${__s} \
+	ove-distrocheck"${__s}" \
 		foo \
 		alpine/${alpine_release:?}$ \
 		debian/${debian_release:?}$ \
@@ -116,7 +138,7 @@ function X {
 	export OVE_DISTROCHECK_XPRA_CLIENT_ARGS="attach"
 	export OVE_DISTROCHECK_XPRA_DE_CMD="xfce4-session"
 	export OVE_DISTROCHECK_XPRA_DE="xfce"
-	ove-distrocheck${__s} \
+	ove-distrocheck"${__s}" \
 		true \
 		alpine/${alpine_release:?}$
 }
@@ -129,7 +151,7 @@ function Y {
 	export OVE_DISTROCHECK_XPRA_CLIENT_ARGS="attach"
 	export OVE_DISTROCHECK_XPRA_DE_CMD="mate-session"
 	export OVE_DISTROCHECK_XPRA_DE="mate"
-	ove-distrocheck${__s} \
+	ove-distrocheck"${__s}" \
 		true \
 		alpine/${alpine_release:?}$
 }
@@ -140,7 +162,7 @@ function cleanup {
 	ove-echo cyan "press ENTER to cleanup"
 	read -r -p ""
 	while true; do
-		c_list=$(${_cmd:?} list --format csv | cut -d, -f1 | grep ^${OVE_DISTROCHECK_CONTAINER_PREFIX}-)
+		c_list=$(${_cmd:?} list --format csv | cut -d, -f1 | grep ^${OVE_DISTROCHECK_CONTAINER_NAME_PREFIX}-)
 		if [ "$c_list" = "" ]; then
 			break
 		fi
@@ -154,23 +176,5 @@ function cleanup {
 }
 
 init
-if [ $# -eq 0 ]; then
-	t_list=$(compgen -A function | \
-		while read -r line; do
-			if [ ${#line} -ne 1 ]; then
-				continue
-			fi
-			echo "$line"
-		done | sort)
-else
-	t_list="${*}"
-fi
-
-for t in ${t_list}; do
-	if [ "$(type -t "$t")" != "function" ]; then
-		continue
-	fi
-	$t
-done
-
+run "$@"
 cleanup
