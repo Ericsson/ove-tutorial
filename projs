@@ -81,6 +81,7 @@ dmce:
     py3-numpy
     py3-colorama
   needs_debian:
+    bash-completion
     dpkg
     python3-numpy
     python3-colorama
