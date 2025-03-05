@@ -64,30 +64,29 @@ fi
 EOF
 	cat -n "$OVE_TMP"/a
 
-	ove-echo cyan "test ${FUNCNAME[0]}: run the above script within a few containers (press ENTER to start)"
+	ove-echo cyan "test ${FUNCNAME[0]}: run the above shell script within three containers [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS=""
 	ove-distrocheck"${__s}" \
 		"${OVE_TMP}/a" \
 		alpine/${alpine_release:?}$ \
-		openwrt/snapshot$ \
 		debian/${debian_release:?}$ \
 		ubuntu/${ubuntu_release:?}$
 }
 
 function b {
-	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within a Ubuntu ${ubuntu_release:?} container, run the job as user, delete when done(press ENTER to start)"
+	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within a Ubuntu ${ubuntu_release:?} container, run the job as user, delete when done [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="user"
 	ove-distrocheck"${__s}" \
 		foo \
 		ubuntu/${ubuntu_release:?}$
-}
+	}
 
 function c {
-	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'ag' within a few distros (press ENTER to start)"
+	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'ag' within three containers [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS=""
@@ -109,7 +108,7 @@ ip addr
 EOF
 	cat -n "$OVE_TMP"/a
 
-	ove-echo cyan "test ${FUNCNAME[0]}: run the above script within a Ubuntu ${ubuntu_release:?} container, enable debug prints, leave the container running (press ENTER to start)"
+	ove-echo cyan "test ${FUNCNAME[0]}: run the above shell script within a Ubuntu ${ubuntu_release:?} container, enable debug prints, leave the container running [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="running verbose"
@@ -119,7 +118,7 @@ EOF
 }
 
 function e {
-	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within a few containers, run the job as user, using worktree, delete container when done (press ENTER to start)"
+	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within three containers, run the job as user, using worktree, delete container when done [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="user worktree"
@@ -131,7 +130,7 @@ function e {
 }
 
 function X {
-	ove-echo cyan "test ${FUNCNAME[0]}: setup a Xfce desktop within an Alpine ${alpine_release:?} container (press ENTER to start)"
+	ove-echo cyan "test ${FUNCNAME[0]}: setup a Xfce desktop within an Alpine ${alpine_release:?} container [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="X running ssh_config ssh user"
@@ -144,7 +143,7 @@ function X {
 }
 
 function Y {
-	ove-echo cyan "test ${FUNCNAME[0]}: setup a MATE desktop within an Alpine ${alpine_release:?} container (press ENTER to start)"
+	ove-echo cyan "test ${FUNCNAME[0]}: setup a MATE desktop within an Alpine ${alpine_release:?} container [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_DISTROCHECK_STEPS="X running ssh_config ssh user verbose"
