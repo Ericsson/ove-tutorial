@@ -22,8 +22,8 @@ function init {
 		tmux split-window -- watch -t -x -- bash -c "${_cmd:?} list --format compact -c ns46tSd | grep demo-"
 	fi
 
-	export OVE_DISTROCHECK_CONTAINER_NAME_PREFIX=demo
-	export OVE_DISTROCHECK_CONTAINER_NAME_RANDOM=1
+	export OVE_INSTANCE_NAME_PREFIX=demo
+	export OVE_INSTANCE_NAME_RANDOM=1
 	export OVE_LOCAL_ECHO=1
 }
 
@@ -67,8 +67,8 @@ EOF
 	ove-echo cyan "test ${FUNCNAME[0]}: run the above shell script within three containers [press ENTER to start]"
 	read -r -p ""
 
-	export OVE_DISTROCHECK_STEPS=""
-	ove-distrocheck"${__s}" \
+	export OVE_INSTANCE_STEPS=""
+	ove-create-instance"${__s}" \
 		"${OVE_TMP}/a" \
 		alpine/${alpine_release:?}$ \
 		debian/${debian_release:?}$ \
@@ -79,8 +79,8 @@ function b {
 	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within a Ubuntu ${ubuntu_release:?} container, run the job as user, delete when done [press ENTER to start]"
 	read -r -p ""
 
-	export OVE_DISTROCHECK_STEPS="user"
-	ove-distrocheck"${__s}" \
+	export OVE_INSTANCE_STEPS="user"
+	ove-create-instance"${__s}" \
 		foo \
 		ubuntu/${ubuntu_release:?}$
 	}
@@ -89,8 +89,8 @@ function c {
 	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'ag' within three containers [press ENTER to start]"
 	read -r -p ""
 
-	export OVE_DISTROCHECK_STEPS=""
-	ove-distrocheck"${__s}" \
+	export OVE_INSTANCE_STEPS=""
+	ove-create-instance"${__s}" \
 		ag \
 		alpine/${alpine_release:?}$ \
 		centos/9-Stream$ \
@@ -111,8 +111,8 @@ EOF
 	ove-echo cyan "test ${FUNCNAME[0]}: run the above shell script within a Ubuntu ${ubuntu_release:?} container, enable debug prints, leave the container running [press ENTER to start]"
 	read -r -p ""
 
-	export OVE_DISTROCHECK_STEPS="running verbose"
-	ove-distrocheck"${__s}" \
+	export OVE_INSTANCE_STEPS="running verbose"
+	ove-create-instance"${__s}" \
 		"$OVE_TMP"/a \
 		ubuntu/${ubuntu_release:?}$
 }
@@ -121,8 +121,8 @@ function e {
 	ove-echo cyan "test ${FUNCNAME[0]}: build the OVE project 'foo' within three containers, run the job as user, using worktree, delete container when done [press ENTER to start]"
 	read -r -p ""
 
-	export OVE_DISTROCHECK_STEPS="user worktree"
-	ove-distrocheck"${__s}" \
+	export OVE_INSTANCE_STEPS="user worktree"
+	ove-create-instance"${__s}" \
 		foo \
 		alpine/${alpine_release:?}$ \
 		debian/${debian_release:?}$ \
@@ -133,11 +133,11 @@ function X {
 	ove-echo cyan "test ${FUNCNAME[0]}: setup a Xfce desktop within an Alpine ${alpine_release:?} container [press ENTER to start]"
 	read -r -p ""
 
-	export OVE_DISTROCHECK_STEPS="X running ssh_config ssh user"
-	export OVE_DISTROCHECK_XPRA_CLIENT_ARGS="attach"
-	export OVE_DISTROCHECK_XPRA_DE_CMD="xfce4-session"
-	export OVE_DISTROCHECK_XPRA_DE="xfce"
-	ove-distrocheck"${__s}" \
+	export OVE_INSTANCE_STEPS="X running ssh_config ssh user"
+	export OVE_INSTANCE_XPRA_CLIENT_ARGS="attach"
+	export OVE_INSTANCE_XPRA_DE_CMD="xfce4-session"
+	export OVE_INSTANCE_XPRA_DE="xfce"
+	ove-create-instance"${__s}" \
 		true \
 		alpine/${alpine_release:?}$
 }
@@ -146,11 +146,11 @@ function Y {
 	ove-echo cyan "test ${FUNCNAME[0]}: setup a MATE desktop within an Alpine ${alpine_release:?} container [press ENTER to start]"
 	read -r -p ""
 
-	export OVE_DISTROCHECK_STEPS="X running ssh_config ssh user verbose"
-	export OVE_DISTROCHECK_XPRA_CLIENT_ARGS="attach"
-	export OVE_DISTROCHECK_XPRA_DE_CMD="mate-session"
-	export OVE_DISTROCHECK_XPRA_DE="mate"
-	ove-distrocheck"${__s}" \
+	export OVE_INSTANCE_STEPS="X running ssh_config ssh user verbose"
+	export OVE_INSTANCE_XPRA_CLIENT_ARGS="attach"
+	export OVE_INSTANCE_XPRA_DE_CMD="mate-session"
+	export OVE_INSTANCE_XPRA_DE="mate"
+	ove-create-instance"${__s}" \
 		true \
 		alpine/${alpine_release:?}$
 }
@@ -161,7 +161,7 @@ function cleanup {
 	ove-echo cyan "press ENTER to cleanup"
 	read -r -p ""
 	while true; do
-		c_list=$(${_cmd:?} list --format csv | cut -d, -f1 | grep ^${OVE_DISTROCHECK_CONTAINER_NAME_PREFIX}-)
+		c_list=$(${_cmd:?} list --format csv | cut -d, -f1 | grep ^${OVE_INSTANCE_NAME_PREFIX}-)
 		if [ "$c_list" = "" ]; then
 			break
 		fi

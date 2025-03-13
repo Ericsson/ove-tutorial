@@ -311,7 +311,7 @@ Wait! What's up with the 'stage/usr/bin...' stuff? A short note: OVE uses a stag
 
 If you have Incus/LXD installed, you could try to build tmux within a container:
 
-    $ ove distrocheck tmux ubuntu/24.04/amd64
+    $ ove create-instance tmux ubuntu/24.04/amd64
     # go grab a cup of tea
     ...
     tmux 3.5a
