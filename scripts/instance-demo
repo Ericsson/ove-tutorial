@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-alpine_release="3.20"
+alpine_release="edge"
 debian_release="12"
 ubuntu_release="24.04"
 
@@ -16,10 +16,6 @@ function init {
 
 	if [ -n "${TMUX}" ]; then
 		__s="-parallel"
-	fi
-
-	if [ -n "${TMUX}" ]; then
-		tmux split-window -- watch -t -x -- bash -c "${_cmd:?} list --format compact -c ns46tSd | grep demo-"
 	fi
 
 	export OVE_INSTANCE_NAME_PREFIX=demo
@@ -130,7 +126,7 @@ function e {
 }
 
 function X {
-	ove-echo cyan "test ${FUNCNAME[0]}: setup a Xfce desktop within an Alpine ${alpine_release:?} container [press ENTER to start]"
+	ove-echo cyan "test ${FUNCNAME[0]}: setup a Xfce desktop within an Alpine container [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_INSTANCE_STEPS="X running ssh_config ssh user"
@@ -143,7 +139,7 @@ function X {
 }
 
 function Y {
-	ove-echo cyan "test ${FUNCNAME[0]}: setup a MATE desktop within an Alpine ${alpine_release:?} container [press ENTER to start]"
+	ove-echo cyan "test ${FUNCNAME[0]}: setup a MATE desktop within an Alpine container [press ENTER to start]"
 	read -r -p ""
 
 	export OVE_INSTANCE_STEPS="X running ssh_config ssh user verbose"
