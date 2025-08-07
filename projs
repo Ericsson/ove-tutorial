@@ -1,7 +1,5 @@
 ---
 base:
-  needs:
-    ccache
   needs_debian:
     build-essential
     pkg-config

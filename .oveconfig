@@ -1,11 +1,8 @@
 # CodeChecker check extra args
 CODECHECKER_ARGS      --enable-all
+
 # clone repos automatically
 OVE_AUTO_CLONE        1
 
 # accelerate builds
 OVE_ACCELERATE_BUILDS 1
-
-# ccache
-CCACHE_BASEDIR        $OVE_BASE_DIR
-CCACHE_DIR            $OVE_BASE_DIR/.ccache
