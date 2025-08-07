@@ -5,12 +5,8 @@ debian_release="12"
 ubuntu_release="24.04"
 
 function init {
-	if command -v incus > /dev/null; then
-		_cmd="incus"
-	elif command -v lxc > /dev/null; then
-		_cmd="lxc"
-	else
-		echo "error: command incus/lxc not found" 1>&2
+	if ! command -v incus > /dev/null; then
+		echo "error: command incus not found" 1>&2
 		exit 1
 	fi
 
@@ -157,17 +153,17 @@ function cleanup {
 	ove-echo cyan "press ENTER to cleanup"
 	read -r -p ""
 	while true; do
-		c_list=$(${_cmd:?} list --format csv | cut -d, -f1 | grep ^${OVE_INSTANCE_NAME_PREFIX}-)
+		c_list=$(incus list --format csv | cut -d, -f1 | grep ^${OVE_INSTANCE_NAME_PREFIX}-)
 		if [ "$c_list" = "" ]; then
 			break
 		fi
-		eval ${_cmd:?} delete -f "${c_list}" 2> /dev/null
+		eval incus delete -f "${c_list}" 2> /dev/null
 		echo -n .
 	done
 	echo
 
 	pkill -f ove_init
-	pkill -f "${_cmd:?} list"
+	pkill -f "incus list"
 }
 
 init

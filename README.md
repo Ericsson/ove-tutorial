@@ -309,7 +309,7 @@ If you are on Ubuntu/Debian, you could try to build everything without 'dry-run'
 
 Wait! What's up with the 'stage/usr/bin...' stuff? A short note: OVE uses a staging area for both intermediate and final build steps. You can look at it as a per-workspace mirror of how the included projects would install on your host if built without OVE. It is up to each project to decide what to do with the end results. Typically an OVE plugin (see Part IV, Plugins) would package relevant output (found in stage/...) into, well.. packages.
 
-If you have Incus/LXD installed, you could try to build tmux within a container:
+If you have Incus installed, you could try to build tmux within an incus container:
 
     $ ove create-instance tmux ubuntu/24.04/amd64
     # go grab a cup of tea
