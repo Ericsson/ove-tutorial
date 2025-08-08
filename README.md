@@ -26,7 +26,7 @@ For the interested, the above oneliner runs the code in the snippet below. PLEAS
 The '**setup**' script will now ask you to enter the '**ove-workspace**' directory and run '**source ove**', please do so. You should observe the following:
 
     $ source ove
-    OVE 8e1b1f1 | Ubuntu 22.04 | GNU/Linux
+    OVE 30bd1bd | Debian GNU/Linux 13 | GNU/Linux
 
 If you are missing some of the required dependencies on your host, OVE will let you know and suggest a solution:
 
@@ -42,19 +42,21 @@ If you are missing some of the required dependencies on your host, OVE will let 
 Now, run '**ove fetch**' to clone the rest of the repositories:
 
     $ ove fetch
-    Cloning into 'ag'...
-    Cloning into 'codechecker'...
-    Cloning into 'dmce'...
-    Cloning into 'libevent'...
-    Cloning into 'ncurses'...
-    Cloning into 'tmux'...
-    Cloning into 'xcm'...
+    ag            Cloning into '/root/ove-workspace/ag'...
+    dmce          Cloning into '/root/ove-workspace/dmce'...
+    libevent      Cloning into '/root/ove-workspace/libevent'...
+    lpp           Cloning into '/root/ove-workspace/lpp'...
+    xcm           Cloning into '/root/ove-workspace/xcm'...
+    codechecker   Cloning into '/root/ove-workspace/codechecker'...
+    tmux          Cloning into '/root/ove-workspace/tmux'...
+    ncurses       Cloning into '/root/ove-workspace/ncurses'...
     ...
     .ove          master                ## master...origin/master
     ag            master                ## master...origin/master
     codechecker   v6.24.4               ## HEAD (no branch)
     dmce          master                ## master...origin/master
     libevent      release-2.1.10-stable ## HEAD (no branch)
+    lpp           main                  ## master...origin/main
     ncurses       v6.1                  ## HEAD (no branch)
     ove-tutorial  d5727dc               ## master...origin/master
     tmux          3.5a                  ## HEAD (no branch)
@@ -63,24 +65,25 @@ Now, run '**ove fetch**' to clone the rest of the repositories:
 Checking the content of your newly created workspace will reveal the source code repos (codechecker, dmce, tmux, xcm), the OWEL (ove-tutorial) and OVE itself:
 
     $ ls -A
-    ag  codechecker  dmce  libevent ncurses ove  .ove  .ove.state  .ove.tmp  ove-tutorial  .owel  README  tmux  xcm
+    .ove  .ove.state  .ove.tmp  .owel  README  ag  codechecker  dmce  libevent  lpp  ncurses  ove  ove-tutorial  tmux  xcm
 
 The first part of the tutorial is done! You have enhanced your bash shell with OVE functionality, set up the top git repo (OWEL) and fetched the included source git repos. This covers the basics of versioning. Let us move on and build stuff!
 
 ## Part II: Build
 
-Your OVE workspace now consists of nine git repositories (all from github.com) and ten projects:
+Your OVE workspace now consists of 10 git repositories (all from github.com) and 13 projects:
 
     $ ove list-repositories
-    .ove          https://github.com/Ericsson/ove.git                https://github.com/Ericsson/ove.git                master
-    ag            https://github.com/ggreer/the_silver_searcher.git  https://github.com/ggreer/the_silver_searcher.git  master
-    codechecker   https://github.com/Ericsson/codechecker.git        https://github.com/Ericsson/codechecker.git        v6.24.4
-    dmce          https://github.com/PatrikAAberg/dmce.git           git@github.com:PatrikAAberg/dmce.git               master
-    libevent      https://github.com/libevent/libevent               https://github.com/libevent/libevent               release-2.1.10-stable
-    ncurses       https://github.com/mirror/ncurses.git              https://github.com/mirror/ncurses.git              v6.1
-    ove-tutorial  https://github.com/Ericsson/ove-tutorial           https://github.com/Ericsson/ove-tutorial           master
-    tmux          https://github.com/tmux/tmux.git                   https://github.com/tmux/tmux.git                   3.5a
-    xcm           https://github.com/Ericsson/xcm.git                https://github.com/Ericsson/xcm.git                master
+    .ove          https://github.com/Ericsson/ove.git                   https://github.com/Ericsson/ove.git                   master
+    ag            https://github.com/ggreer/the_silver_searcher.git     https://github.com/ggreer/the_silver_searcher.git     master
+    codechecker   https://github.com/Ericsson/codechecker.git           https://github.com/Ericsson/codechecker.git           v6.24.4
+    dmce          https://github.com/PatrikAAberg/dmce.git              git@github.com:PatrikAAberg/dmce.git                  master
+    libevent      https://github.com/libevent/libevent                  https://github.com/libevent/libevent                  release-2.1.10-stable
+    lpp           https://github.com/Ericsson/SUPL-3GPP-LPP-client.git  https://github.com/Ericsson/SUPL-3GPP-LPP-client.git  main
+    ncurses       https://github.com/mirror/ncurses.git                 https://github.com/mirror/ncurses.git                 v6.1
+    ove-tutorial  https://github.com/Ericsson/ove-tutorial              https://github.com/Ericsson/ove-tutorial              master
+    tmux          https://github.com/tmux/tmux.git                      https://github.com/tmux/tmux.git                      3.5a
+    xcm           https://github.com/Ericsson/xcm.git                   https://github.com/Ericsson/xcm.git                   master
 
     $ ove list-projects
     ag
@@ -90,54 +93,68 @@ Your OVE workspace now consists of nine git repositories (all from github.com) a
     dmce
     foo
     libevent
+    lpp
     ncurses
+    ninja
     tmux
     xcm
+    xz
 
 For OVE, a project is something that produces output (e.g. an executable, a library or anything else machine-made). Even though projects are normally contained within a corresponding git repo, OVE treats projects and repos independently. Multiple projects can be configured using code and build systems from the same repo, and one project can use code and build systems from multiple repos.
 OVE keeps track of the dependencies between projects, so let us check the build order for the tutorial OWEL:
 
     $ ove build-order
-    foo base libevent ncurses clang_tools xcm tmux dmce codechecker ag
+    foo base libevent ncurses ninja clang_tools xz xcm tmux lpp dmce codechecker ag
 
     $ ove digraph
-                        ┌─────┐     ┌─────────────┐
-                        │ ag  │     │ clang_tools │ ◀────────────────────┐
-                        └─────┘     └─────────────┘                      │
-                          │                                              │
-                          │                                              │
-                          ▼                                              │
-    ┌─────────────┐     ┌───────────────────────────────────┐            │
-    │ codechecker │ ──▶ │                                   │            │
-    └─────────────┘     │               base                │            │
-                        │                                   │            │
-      ┌───────────────▶ │                                   │ ◀┐         │
-      │                 └───────────────────────────────────┘  │         │
-      │                   ▲           ▲                   ▲    │         │
-      │                   │           │                   │    │         │
-      │                   │           │                   │    │         │
-    ┌─────────────┐     ┌─────┐     ┌─────────────┐       │    │         │
-    │   ncurses   │     │ xcm │     │    tmux     │ ─┐    │    │         │
-    └─────────────┘     └─────┘     └─────────────┘  │    │    │         │
-      ▲                               │              │    │    │         │
-      │                          ┌────┘              └────┼────┼────┐    │
-      │                          │                        │    │    │    │
-      │                          │  ┌─────────────┐       │    │    │    │
-      │                          │  │    dmce     │ ──────┘    │    │    │
-      │                          │  └─────────────┘            │    │    │
-      │                          │    │                        │    │    │
-      │                          │    └────────────────────────┼────┼────┘
-      │                          │                             │    │
-      │                          │  ┌─────────────┐            │    │
-      │                          └▶ │  libevent   │ ───────────┘    │
-      │                             └─────────────┘                 │
-      │                                                             │
-      └─────────────────────────────────────────────────────────────┘
-                        ┌─────┐
-                        │ foo │
-                        └─────┘
 
-All projects except 'foo' are dependent on '**base**' (=gcc/make/... etc.).
+           ┌───────────────────────────────────────────────────────────────────────────────┐
+           │                                                                               │
+           │                                                                               │
+      ┌────┼──────────────────────────────────────────────────────┐                        │
+      │    ▼                                                      │                        │
+      │  ┌─────────┐     ┌─────┐                                  │                        │
+      │  │   xz    │ ◀── │ ag  │                                  │                        │
+      │  └─────────┘     └─────┘                                  │                        │
+      │                    │                                      │                        │
+      │                    │                                      │                        │
+      │                    ▼                                      │                        │
+      │                  ┌────────────────────────────────┐       │       ┌─────────────┐  │
+      │                  │                                │ ◀─────┼────── │ codechecker │  │
+      │                  │                                │       │       └─────────────┘  │
+      │                  │                                │       │                        │
+      │                  │                                │       │         ┌──────────────┘
+      │                  │                                │       │         │
+      │                  │                                │       │       ┌─────────────┐
+      │                  │              base              │ ◀─────┼────── │    dmce     │
+      │                  │                                │       │       └─────────────┘
+      │                  │                                │       │         │
+      │                  │                                │       │         │
+      │                  │                                │       │         ▼
+      │                  │                                │       │       ┌─────────────┐
+      │    ┌───────────▶ │                                │ ◀┐    │       │ clang_tools │
+      │    │             └────────────────────────────────┘  │    │       └─────────────┘
+      │    │               ▲           ▲                ▲    │    │
+      │    │               │           │                │    │    │
+      │    │               │           │                │    │    │
+      │  ┌─────────┐     ┌─────┐     ┌──────────┐       │    │    │
+      └▶ │ ncurses │     │ xcm │     │   tmux   │ ──────┼────┼────┘
+         └─────────┘     └─────┘     └──────────┘       │    │
+                                       │                │    │
+                                  ┌────┘                │    │
+                                  │                     │    │
+                                  │  ┌──────────┐       │    │
+                                  │  │   lpp    │ ──────┘    │
+                                  │  └──────────┘            │
+                                  │    │                     │
+                                  │    └────────────────┐    │
+                                  │                     │    │
+                                  │  ┌──────────┐       │    │
+                                  └▶ │ libevent │ ──────┼────┘
+                                     └──────────┘       │
+                         ┌─────┐     ┌──────────┐       │
+                         │ foo │     │  ninja   │ ◀─────┘
+                         └─────┘     └──────────┘
 
 Let us do a 'dry-run' build first:
 
@@ -145,152 +162,44 @@ Let us do a 'dry-run' build first:
     OVE_DRY_RUN 1
 
     $ ove buildme
-    2024-10-31 07:09:19.482022 (+00:00:00:000000):would prompt to install this/these package(s):
+    2025-08-05 07:09:19.482022 (+00:00:00:000000):would prompt to install this/these package(s):
+    autoconf
+    automake
     bison
-    clang-tools
-    libtool
-    python3-colorama
-    python3-flake8
-    python3-numpy
+    ...
+    wget
+    xz-utils
+    zlib1g-dev
     pushd /root/ove-workspace
-    2024-10-31 07:09:19.508085 (+00:00:00:026063):foo: bootstrap
+    2025-08-05 07:09:19.508085 (+00:00:00:026063):foo: bootstrap
     eval foo_version= OVE_ACTIVE_PROJECT_NAME=foo OVE_ACTIVE_PROJECT_COMMAND=bootstrap OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/foo/bootstrap
-    2024-10-31 07:09:19.512341 (+00:00:00:004256):foo: bootstrap: done
+    2025-08-05 07:09:19.512341 (+00:00:00:004256):foo: bootstrap: done
     popd
     pushd /root/ove-workspace/libevent
-    2024-10-31 07:09:19.537189 (+00:00:00:024848):libevent: bootstrap
+    2025-08-05 07:09:19.537189 (+00:00:00:024848):libevent: bootstrap
     eval libevent_version= OVE_ACTIVE_PROJECT_NAME=libevent OVE_ACTIVE_PROJECT_COMMAND=bootstrap OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/libevent/bootstrap
-    2024-10-31 07:09:19.540876 (+00:00:00:003687):libevent: bootstrap: done
+    2025-08-05 07:09:19.540876 (+00:00:00:003687):libevent: bootstrap: done
     popd
     pushd /root/ove-workspace/ncurses
-    2024-10-31 07:09:19.562455 (+00:00:00:021579):ncurses: bootstrap
+    2025-08-05 07:09:19.562455 (+00:00:00:021579):ncurses: bootstrap
     eval ncurses_version= OVE_ACTIVE_PROJECT_NAME=ncurses OVE_ACTIVE_PROJECT_COMMAND=bootstrap OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ncurses/bootstrap
-    2024-10-31 07:09:19.566095 (+00:00:00:003640):ncurses: bootstrap: done
+    2025-08-05 07:09:19.566095 (+00:00:00:003640):ncurses: bootstrap: done
     popd
-    pushd /root/ove-workspace
-    2024-10-31 07:09:19.590822 (+00:00:00:024727):clang_tools: bootstrap
-    eval clang_tools_version= OVE_ACTIVE_PROJECT_NAME=clang_tools OVE_ACTIVE_PROJECT_COMMAND=bootstrap OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/clang_tools/bootstrap
-    2024-10-31 07:09:19.593911 (+00:00:00:003089):clang_tools: bootstrap: done
-    popd
-    pushd /root/ove-workspace/xcm
-    2024-10-31 07:09:19.618531 (+00:00:00:024620):xcm: bootstrap
-    eval xcm_version= OVE_ACTIVE_PROJECT_NAME=xcm OVE_ACTIVE_PROJECT_COMMAND=bootstrap OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/xcm/bootstrap
-    2024-10-31 07:09:19.622520 (+00:00:00:003989):xcm: bootstrap: done
-    popd
-    pushd /root/ove-workspace/tmux
-    2024-10-31 07:09:19.650178 (+00:00:00:027658):tmux: bootstrap
-    eval tmux_version= OVE_ACTIVE_PROJECT_NAME=tmux OVE_ACTIVE_PROJECT_COMMAND=bootstrap OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/tmux/bootstrap
-    2024-10-31 07:09:19.655555 (+00:00:00:005377):tmux: bootstrap: done
-    popd
+    ...
     pushd /root/ove-workspace/ag
-    2024-10-31 07:09:19.680689 (+00:00:00:025134):ag: bootstrap
-    eval ag_version= OVE_ACTIVE_PROJECT_NAME=ag OVE_ACTIVE_PROJECT_COMMAND=bootstrap OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ag/bootstrap
-    2024-10-31 07:09:19.684100 (+00:00:00:003411):ag: bootstrap: done
-    popd
-    pushd /root/ove-workspace
-    2024-10-31 07:09:19.705437 (+00:00:00:021337):foo: configure
-    eval foo_version= OVE_ACTIVE_PROJECT_NAME=foo OVE_ACTIVE_PROJECT_COMMAND=configure OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/foo/configure
-    2024-10-31 07:09:19.708978 (+00:00:00:003541):foo: configure: done
-    popd
-    pushd /root/ove-workspace
-    2024-10-31 07:09:19.734519 (+00:00:00:025541):foo: build
-    eval foo_version= OVE_ACTIVE_PROJECT_NAME=foo OVE_ACTIVE_PROJECT_COMMAND=build OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/foo/build
-    2024-10-31 07:09:19.739595 (+00:00:00:005076):foo: build: done
-    popd
-    pushd /root/ove-workspace
-    2024-10-31 07:09:19.764393 (+00:00:00:024798):foo: install
-    eval foo_version= OVE_ACTIVE_PROJECT_NAME=foo OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/foo/install
-    2024-10-31 07:09:19.767326 (+00:00:00:002933):foo: install: done
-    popd
-    pushd /root/ove-workspace/libevent
-    2024-10-31 07:09:19.868098 (+00:00:00:100772):libevent: configure
-    eval libevent_version= OVE_ACTIVE_PROJECT_NAME=libevent OVE_ACTIVE_PROJECT_COMMAND=configure OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/libevent/configure
-    2024-10-31 07:09:19.873167 (+00:00:00:005069):libevent: configure: done
-    popd
-    pushd /root/ove-workspace/libevent
-    2024-10-31 07:09:19.896467 (+00:00:00:023300):libevent: build
-    eval libevent_version= OVE_ACTIVE_PROJECT_NAME=libevent OVE_ACTIVE_PROJECT_COMMAND=build OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/libevent/build
-    2024-10-31 07:09:19.901816 (+00:00:00:005349):libevent: build: done
-    popd
-    pushd /root/ove-workspace/libevent
-    2024-10-31 07:09:19.923944 (+00:00:00:022128):libevent: install
-    eval libevent_version= OVE_ACTIVE_PROJECT_NAME=libevent OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/libevent/install
-    2024-10-31 07:09:19.930476 (+00:00:00:006532):libevent: install: done
-    popd
-    pushd /root/ove-workspace/ncurses
-    2024-10-31 07:09:19.953568 (+00:00:00:023092):ncurses: configure
-    eval ncurses_version= OVE_ACTIVE_PROJECT_NAME=ncurses OVE_ACTIVE_PROJECT_COMMAND=configure OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ncurses/configure
-    2024-10-31 07:09:19.956717 (+00:00:00:003149):ncurses: configure: done
-    popd
-    pushd /root/ove-workspace/ncurses
-    2024-10-31 07:09:19.981461 (+00:00:00:024744):ncurses: build
-    eval ncurses_version= OVE_ACTIVE_PROJECT_NAME=ncurses OVE_ACTIVE_PROJECT_COMMAND=build OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ncurses/build
-    2024-10-31 07:09:19.984478 (+00:00:00:003017):ncurses: build: done
-    popd
-    pushd /root/ove-workspace/ncurses
-    2024-10-31 07:09:20.010211 (+00:00:00:025733):ncurses: install
-    eval ncurses_version= OVE_ACTIVE_PROJECT_NAME=ncurses OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ncurses/install
-    2024-10-31 07:09:20.013514 (+00:00:00:003303):ncurses: install: done
-    popd
-    pushd /root/ove-workspace/xcm
-    2024-10-31 07:09:20.139466 (+00:00:00:125952):xcm: configure
-    eval xcm_version= OVE_ACTIVE_PROJECT_NAME=xcm OVE_ACTIVE_PROJECT_COMMAND=configure OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/xcm/configure
-    2024-10-31 07:09:20.142550 (+00:00:00:003084):xcm: configure: done
-    popd
-    pushd /root/ove-workspace/xcm
-    2024-10-31 07:09:20.163529 (+00:00:00:020979):xcm: build
-    eval xcm_version= OVE_ACTIVE_PROJECT_NAME=xcm OVE_ACTIVE_PROJECT_COMMAND=build OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/xcm/build
-    2024-10-31 07:09:20.168438 (+00:00:00:004909):xcm: build: done
-    popd
-    pushd /root/ove-workspace/xcm
-    2024-10-31 07:09:20.193589 (+00:00:00:025151):xcm: install
-    eval xcm_version= OVE_ACTIVE_PROJECT_NAME=xcm OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/xcm/install
-    2024-10-31 07:09:20.196736 (+00:00:00:003147):xcm: install: done
-    popd
-    pushd /root/ove-workspace/tmux
-    2024-10-31 07:09:20.221370 (+00:00:00:024634):tmux: configure
-    eval tmux_version= OVE_ACTIVE_PROJECT_NAME=tmux OVE_ACTIVE_PROJECT_COMMAND=configure OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/tmux/configure
-    2024-10-31 07:09:20.224484 (+00:00:00:003114):tmux: configure: done
-    popd
-    pushd /root/ove-workspace/tmux
-    2024-10-31 07:09:20.248755 (+00:00:00:024271):tmux: build
-    eval tmux_version= OVE_ACTIVE_PROJECT_NAME=tmux OVE_ACTIVE_PROJECT_COMMAND=build OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/tmux/build
-    2024-10-31 07:09:20.252889 (+00:00:00:004134):tmux: build: done
-    popd
-    pushd /root/ove-workspace/tmux
-    2024-10-31 07:09:20.276105 (+00:00:00:023216):tmux: install
-    eval tmux_version= OVE_ACTIVE_PROJECT_NAME=tmux OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/tmux/install
-    2024-10-31 07:09:20.280563 (+00:00:00:004458):tmux: install: done
-    popd
-    pushd /root/ove-workspace/dmce
-    2024-10-31 07:09:20.340891 (+00:00:00:060328):dmce: install
-    eval dmce_version= OVE_ACTIVE_PROJECT_NAME=dmce OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/dmce/install
-    2024-10-31 07:09:20.343812 (+00:00:00:002921):dmce: install: done
-    popd
-    pushd /root/ove-workspace/codechecker
-    2024-10-31 07:09:20.386850 (+00:00:00:043038):codechecker: build
-    eval codechecker_version= OVE_ACTIVE_PROJECT_NAME=codechecker OVE_ACTIVE_PROJECT_COMMAND=build OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/codechecker/build
-    2024-10-31 07:09:20.390212 (+00:00:00:003362):codechecker: build: done
-    popd
-    pushd /root/ove-workspace/codechecker
-    2024-10-31 07:09:20.415122 (+00:00:00:024910):codechecker: install
-    eval codechecker_version= OVE_ACTIVE_PROJECT_NAME=codechecker OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/codechecker/install
-    2024-10-31 07:09:20.419225 (+00:00:00:004103):codechecker: install: done
-    popd
-    pushd /root/ove-workspace/ag
-    2024-10-31 07:09:20.440854 (+00:00:00:021629):ag: configure
+    2025-08-05 07:09:20.440854 (+00:00:00:021629):ag: configure
     eval ag_version= OVE_ACTIVE_PROJECT_NAME=ag OVE_ACTIVE_PROJECT_COMMAND=configure OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ag/configure
-    2024-10-31 07:09:20.444762 (+00:00:00:003908):ag: configure: done
+    2025-08-05 07:09:20.444762 (+00:00:00:003908):ag: configure: done
     popd
     pushd /root/ove-workspace/ag
-    2024-10-31 07:09:20.467627 (+00:00:00:022865):ag: build
+    2025-08-05 07:09:20.467627 (+00:00:00:022865):ag: build
     eval ag_version= OVE_ACTIVE_PROJECT_NAME=ag OVE_ACTIVE_PROJECT_COMMAND=build OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ag/build
-    2024-10-31 07:09:20.471522 (+00:00:00:003895):ag: build: done
+    2025-08-05 07:09:20.471522 (+00:00:00:003895):ag: build: done
     popd
     pushd /root/ove-workspace/ag
-    2024-10-31 07:09:20.495957 (+00:00:00:024435):ag: install
+    2025-08-05 07:09:20.495957 (+00:00:00:024435):ag: install
     eval ag_version= OVE_ACTIVE_PROJECT_NAME=ag OVE_ACTIVE_PROJECT_COMMAND=install OVE_ACTIVE_PROJECT_VERSION= /root/ove-workspace/ove-tutorial/projects/ag/install
-    2024-10-31 07:09:20.499249 (+00:00:00:003292):ag: install: done
+    2025-08-05 07:09:20.499249 (+00:00:00:003292):ag: install: done
     popd
 
 When making this tutorial we used a [Incus container](https://linuxcontainers.org/incus), hence the "/root/" path.
@@ -356,6 +265,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker   v6.24.4                ## HEAD (no branch)
     dmce          master                 ## master...origin/master
     libevent      release-2.1.10-stable  ## HEAD (no branch)
+    lpp           main                   ## main...origin/main
     ncurses       v6.1                   ## HEAD (no branch)
     ove-tutorial  f038c46                ## master...origin/master
     tmux          3.5a                   ## HEAD (no branch)
@@ -371,6 +281,7 @@ In this part, we will give a brief introduction to a few useful commands. Try th
     codechecker   v6.24.4                ## HEAD (no branch) M docs/README.md
     dmce          master                 ## master...origin/master M README.md
     libevent      release-2.1.10-stable  ## HEAD (no branch) M README.md
+    lpp           main                   ## main...origin/main m README.md
     ncurses       v6.1                   ## HEAD (no branch) M README
     ove-tutorial  d5727dc                ## master...origin/master M README.md
     tmux          3.5a                   ## HEAD (no branch) M README
