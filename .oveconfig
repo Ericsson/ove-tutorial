@@ -6,3 +6,6 @@ OVE_AUTO_CLONE        1
 
 # accelerate builds
 OVE_ACCELERATE_BUILDS 1
+
+# for 'ove create-instance'
+OVE_INSTANCE_STEPS    ove running user verbose
