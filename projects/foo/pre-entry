@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# incus config device add "${OVE_INSTANCE_NAME:?}" agpu gpu
+exit 0
