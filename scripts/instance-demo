@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 alpine_release="edge"
-debian_release="12"
-ubuntu_release="24.04"
+debian_release="13"
+ubuntu_release="26.04"
 
 function init {
 	if ! command -v incus > /dev/null; then
